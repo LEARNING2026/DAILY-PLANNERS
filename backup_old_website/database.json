@@ -1,0 +1,63 @@
+{
+  "users": {
+    "test@example.com": {
+      "id": "test@example.com",
+      "name": "Test User",
+      "email": "test@example.com",
+      "phone": "1234567890",
+      "password": "scrypt:32768:8:1$JntRThwsTCfuuUrE$650aaef5e4b5a9edd9f24f128364f47164578472d300276657c7cc1bf38cba908deef4edd3e1a394c913c8cacffa85922529982ad683404f2936b9e7717b4127",
+      "avatar": "https://ui-avatars.com/api/?name=Test User&background=2563eb&color=fff",
+      "verified": false,
+      "created_at": "2025-12-14T15:51:40.711855"
+    },
+    "gethuba.h@gmail.com": {
+      "id": "gethuba.h@gmail.com",
+      "name": "fsdffs",
+      "email": "gethuba.h@gmail.com",
+      "phone": "55552555",
+      "password": "scrypt:32768:8:1$MSvLf3qXY2ji55W4$df99a72419be4d6221a0196091f0a16587db031933d897e23ba5cc1867b1bfffa9ae4c7d1b1ebfd674cc98c59ba51a3e0bb6122fd95df948c2ebf82e5d6aeba1",
+      "avatar": "https://ui-avatars.com/api/?name=fsdffs&background=2563eb&color=fff",
+      "verified": false,
+      "created_at": "2025-12-14T16:11:13.015661"
+    },
+    "212605517182@phone.learnhub.com": {
+      "id": "212605517182@phone.learnhub.com",
+      "name": "Phone User",
+      "email": "212605517182@phone.learnhub.com",
+      "phone": "+212605517182",
+      "password": "scrypt:32768:8:1$iiYT86ty3Xeq68HN$cc3fcad0e536aea0692dc404513ba05d449dcaa25d5703f69be074b3e06bce770e8319db0a35b26b7c82e52c5cead37c2a975b6aa6986879c9d3f290fef83c01",
+      "avatar": "https://ui-avatars.com/api/?name=Phone User&background=2563eb&color=fff",
+      "verified": false,
+      "created_at": "2025-12-14T16:18:26.330506"
+    }
+  },
+  "progress": {
+    "test@example.com": {
+      "courses_enrolled": [],
+      "lessons_completed": [],
+      "exercises_completed": [],
+      "exam_scores": {},
+      "certificates": [],
+      "streak_days": 0,
+      "last_activity": "2025-12-14T15:51:40.712855"
+    },
+    "gethuba.h@gmail.com": {
+      "courses_enrolled": [],
+      "lessons_completed": [],
+      "exercises_completed": [],
+      "exam_scores": {},
+      "certificates": [],
+      "streak_days": 0,
+      "last_activity": "2025-12-14T16:11:13.015661"
+    },
+    "212605517182@phone.learnhub.com": {
+      "courses_enrolled": [],
+      "lessons_completed": [],
+      "exercises_completed": [],
+      "exam_scores": {},
+      "certificates": [],
+      "streak_days": 0,
+      "last_activity": "2025-12-14T16:18:26.330506"
+    }
+  }
+}
