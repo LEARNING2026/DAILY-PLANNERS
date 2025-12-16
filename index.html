@@ -1,524 +1,154 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light" dir="ltr">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daily Planner</title>
+    <title>Ultimate Daily Planner & Learning Hub</title>
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- For Arabic -->
 
-    <style>
-        :root {
-            /* Colors */
-            --bg-body: #f3f4f6;
-            --bg-sidebar: #ffffff;
-            --bg-card: #ffffff;
-            --text-primary: #1f2937;
-            --text-secondary: #6b7280;
-            --primary-color: #6366f1;
-            /* Indigo */
-            --primary-hover: #4f46e5;
-            --danger-color: #ef4444;
-            --success-color: #10b981;
-            --warning-color: #f59e0b;
-            --border-color: #e5e7eb;
-
-            /* Priority Colors */
-            --priority-high: #fee2e2;
-            --priority-high-text: #b91c1c;
-            --priority-medium: #fef3c7;
-            --priority-medium-text: #b45309;
-            --priority-low: #d1fae5;
-            --priority-low-text: #047857;
-
-            /* Theme config */
-            --sidebar-width: 260px;
-            --transition-speed: 0.3s;
-            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        }
-
-        [data-theme="dark"] {
-            --bg-body: #111827;
-            --bg-sidebar: #1f2937;
-            --bg-card: #374151;
-            --text-primary: #f9fafb;
-            --text-secondary: #d1d5db;
-            --primary-color: #818cf8;
-            --primary-hover: #6366f1;
-            --border-color: #4b5563;
-
-            --priority-high: #7f1d1d;
-            --priority-high-text: #fecaca;
-            --priority-medium: #78350f;
-            --priority-medium-text: #fde68a;
-            --priority-low: #064e3b;
-            --priority-low-text: #a7f3d0;
-        }
-
-        * {
-            box-sizing: border-box;
-            outline: none;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-body);
-            color: var(--text-primary);
-            margin: 0;
-            padding: 0;
-            line-height: 1.5;
-            transition: background-color var(--transition-speed), color var(--transition-speed);
-            overflow-x: hidden;
-        }
-
-        /* Layout */
-        .app-container {
-            display: flex;
-            min-height: 100vh;
-        }
-
-        /* Sidebar */
-        .sidebar {
-            width: var(--sidebar-width);
-            background: var(--bg-sidebar);
-            border-right: 1px solid var(--border-color);
-            padding: 1.5rem;
-            display: flex;
-            flex-direction: column;
-            position: fixed;
-            height: 100vh;
-            z-index: 50;
-            transition: transform var(--transition-speed);
-        }
-
-        .brand {
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: var(--primary-color);
-            margin-bottom: 2.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .nav-links {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-
-        .nav-link {
-            display: flex;
-            align-items: center;
-            padding: 0.875rem 1rem;
-            border-radius: 0.5rem;
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-weight: 500;
-            transition: all 0.2s;
-            cursor: pointer;
-        }
-
-        .nav-link:hover,
-        .nav-link.active {
-            background-color: rgba(99, 102, 241, 0.1);
-            color: var(--primary-color);
-        }
-
-        .user-profile {
-            margin-top: auto;
-            padding-top: 1rem;
-            border-top: 1px solid var(--border-color);
-        }
-
-        /* Content Area */
-        .main-content {
-            flex: 1;
-            margin-left: var(--sidebar-width);
-            padding: 2rem;
-            width: calc(100% - var(--sidebar-width));
-            transition: margin-left var(--transition-speed), width var(--transition-speed);
-        }
-
-        .page-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-        }
-
-        .page-title {
-            font-size: 1.875rem;
-            font-weight: 800;
-        }
-
-        .current-date {
-            color: var(--text-secondary);
-        }
-
-        /* Views */
-        .view-section {
-            display: none;
-            animation: fadeIn 0.3s;
-        }
-
-        .view-section.active {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(5px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Components */
-        .card {
-            background: var(--bg-card);
-            border-radius: 0.75rem;
-            padding: 1.5rem;
-            box-shadow: var(--shadow-sm);
-            border: 1px solid var(--border-color);
-            margin-bottom: 1.5rem;
-        }
-
-        .btn {
-            padding: 0.625rem 1.25rem;
-            border-radius: 0.5rem;
-            font-weight: 600;
-            cursor: pointer;
-            border: none;
-            transition: background 0.2s;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            font-size: 0.95rem;
-        }
-
-        .btn-primary {
-            background: var(--primary-color);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background: var(--primary-hover);
-        }
-
-        .btn-danger {
-            background: var(--danger-color);
-            color: white;
-        }
-
-        .btn-danger:hover {
-            opacity: 0.9;
-        }
-
-        /* Stats */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .stat-card h3 {
-            font-size: 0.875rem;
-            text-transform: uppercase;
-            color: var(--text-secondary);
-            margin-bottom: 0.5rem;
-        }
-
-        .stat-card .value {
-            font-size: 2.25rem;
-            font-weight: 700;
-            color: var(--text-primary);
-        }
-
-        /* Task UI */
-        .add-task-form {
-            background: var(--bg-card);
-            padding: 1.5rem;
-            border-radius: 0.75rem;
-            margin-bottom: 2rem;
-            display: grid;
-            gap: 1rem;
-            grid-template-columns: 2fr 1fr 1fr auto;
-            border: 1px solid var(--border-color);
-        }
-
-        .input-field {
-            padding: 0.625rem;
-            border: 1px solid var(--border-color);
-            border-radius: 0.5rem;
-            background: var(--bg-body);
-            color: var(--text-primary);
-            font-family: inherit;
-            width: 100%;
-        }
-
-        .task-filters {
-            display: flex;
-            gap: 0.5rem;
-            overflow-x: auto;
-            margin-bottom: 1rem;
-        }
-
-        .filter-btn {
-            background: transparent;
-            border: 1px solid var(--border-color);
-            color: var(--text-secondary);
-            padding: 0.5rem 1rem;
-            border-radius: 2rem;
-            cursor: pointer;
-        }
-
-        .filter-btn.active {
-            background: var(--primary-color);
-            color: white;
-            border-color: var(--primary-color);
-        }
-
-        .search-bar {
-            margin-bottom: 1rem;
-        }
-
-        /* Task List */
-        .task-list {
-            list-style: none;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .task-item {
-            background: var(--bg-card);
-            padding: 1rem 1.5rem;
-            border-radius: 0.75rem;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            box-shadow: var(--shadow-sm);
-            border: 1px solid var(--border-color);
-            transition: transform 0.2s;
-            cursor: grab;
-        }
-
-        .task-item.completed .task-text {
-            text-decoration: line-through;
-            opacity: 0.6;
-        }
-
-        .task-item.dragging {
-            opacity: 0.4;
-            border: 2px dashed var(--primary-color);
-        }
-
-        .badge {
-            padding: 0.15rem 0.5rem;
-            border-radius: 0.25rem;
-            font-size: 0.75rem;
-            font-weight: 600;
-        }
-
-        .badge-category {
-            background: var(--bg-body);
-            border: 1px solid var(--border-color);
-        }
-
-        .badge-priority-high {
-            background: var(--priority-high);
-            color: var(--priority-high-text);
-        }
-
-        .badge-priority-medium {
-            background: var(--priority-medium);
-            color: var(--priority-medium-text);
-        }
-
-        .badge-priority-low {
-            background: var(--priority-low);
-            color: var(--priority-low-text);
-        }
-
-        /* Notifications */
-        .notification-container {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-            z-index: 100;
-        }
-
-        .toast {
-            background: var(--bg-card);
-            color: var(--text-primary);
-            padding: 1rem 1.5rem;
-            border-radius: 0.5rem;
-            box-shadow: var(--shadow-md);
-            border-left: 4px solid var(--primary-color);
-            animation: slideIn 0.3s ease;
-        }
-
-        @keyframes slideIn {
-            from {
-                transform: translateX(100%);
-            }
-
-            to {
-                transform: translateX(0);
-            }
-        }
-
-        /* Responsive */
-        .mobile-toggle {
-            display: none;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            color: var(--text-primary);
-            cursor: pointer;
-        }
-
-        @media (max-width: 768px) {
-            .sidebar {
-                transform: translateX(-100%);
-                width: 100%;
-                box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-            }
-
-            .sidebar.open {
-                transform: translateX(0);
-            }
-
-            .main-content {
-                margin-left: 0;
-                width: 100%;
-                padding: 1.5rem 1rem;
-            }
-
-            .mobile-toggle {
-                display: block;
-            }
-
-            .add-task-form {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+    <!-- Modular CSS -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/rtl.css">
 </head>
 
-<body>
+<body class="light">
 
     <div class="app-container">
-        <!-- Sidebar -->
+        <!-- SIDEBAR -->
         <aside class="sidebar" id="sidebar">
-            <div class="brand"><span>📅</span> Daily Planner</div>
-            <nav class="nav-links">
-                <a href="#home" class="nav-link active" data-view="home"><span>🏠</span> Home</a>
-                <a href="#tasks" class="nav-link" data-view="tasks"><span>✅</span> Tasks</a>
-                <a href="#languages" class="nav-link" data-view="languages"><span>🌍</span> Languages</a>
-                <a href="#progress" class="nav-link" data-view="progress"><span>📊</span> Progress</a>
-                <a href="#settings" class="nav-link" data-view="settings"><span>⚙️</span> Settings</a>
-            </nav>
-            <div class="user-profile">
-                <p style="font-size: 0.85rem; color:var(--text-secondary)">Signed in as</p>
-                <p style="font-weight: 700;" id="sidebar-username">User</p>
+            <div class="brand">
+                <span>🚀 PlanHub</span>
+                <span class="pro-badge" style="font-size:0.5rem; align-self:flex-start;">PRO</span>
             </div>
+
+            <nav class="nav-links">
+                <a href="#home" class="nav-link active">
+                    <span>🏠</span> <span data-i18n="home">Home</span>
+                </a>
+                <a href="#tasks" class="nav-link">
+                    <span>✅</span> <span data-i18n="tasks">Tasks</span>
+                </a>
+                <a href="#languages" class="nav-link">
+                    <span>🌍</span> <span data-i18n="languages">Languages</span>
+                </a>
+                <a href="#books" class="nav-link">
+                    <span>📚</span> <span data-i18n="books">Books</span>
+                </a>
+                <a href="#progress" class="nav-link">
+                    <span>📈</span> <span data-i18n="progress">Progress</span>
+                </a>
+                <a href="#settings" class="nav-link">
+                    <span>⚙️</span> <span data-i18n="settings">Settings</span>
+                </a>
+            </nav>
+
+            <div class="user-profile" id="user-profile-area">
+                <!-- Injected via JS -->
+            </div>
+
+            <!-- Ad Placeholder -->
+            <div id="ad-sidebar" style="margin-top:1rem;" class="hidden"></div>
         </aside>
 
-        <!-- Main Content -->
-        <main class="main-content" id="main-content">
+        <!-- MAIN CONTENT -->
+        <main class="main-content">
+            <!-- Header -->
             <header class="page-header">
-                <button class="mobile-toggle" id="mobile-toggle">☰</button>
-                <div
-                    style="flex-grow:1; display: flex; justify-content: space-between; align-items:center; margin-left:1rem;">
-                    <h2 class="page-title" id="page-title">Dashboard</h2>
-                    <span class="current-date" id="current-date"></span>
+                <button class="mobile-toggle"
+                    onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+                <div class="page-title" id="page-title"></div>
+                <div class="header-actions" style="display:flex; gap:1rem; align-items:center;">
+                    <select id="lang-selector" class="input-field" style="padding:0.5rem;"
+                        onchange="LanguageManager.setLanguage(this.value)">
+                        <option value="en">🇺🇸 English</option>
+                        <option value="fr">🇫🇷 Français</option>
+                        <option value="ar">🇸🇦 العربية</option>
+                    </select>
                 </div>
             </header>
 
-            <!-- Home View -->
-            <div id="home-view" class="view-section active">
-                <!-- Injected by JS -->
+            <!-- HERO SECTION -->
+            <div class="hero-section">
+                <div class="hero-bg-shape"></div>
+                <div class="hero-content">
+                    <h1 class="hero-title"><span data-i18n="welcome">Welcome,</span> <span
+                            id="hero-username">Guest</span>!</h1>
+                    <p class="hero-subtitle" data-i18n="heroSubtitle">Let's be productive today.</p>
+                </div>
             </div>
 
-            <!-- Tasks View -->
-            <div id="tasks-view" class="view-section">
-                <div class="add-task-form">
-                    <input type="text" id="task-input" class="input-field" placeholder="Add a new task..." />
-                    <select id="task-category" class="input-field">
-                        <option value="Personal">Personal</option>
-                        <option value="Work">Work</option>
-                        <option value="Learning">Learning</option>
-                        <option value="Fun">Fun</option>
-                    </select>
-                    <select id="task-priority" class="input-field">
-                        <option value="high">High</option>
-                        <option value="medium" selected>Medium</option>
-                        <option value="low">Low</option>
-                    </select>
-                    <button id="add-btn" class="btn btn-primary">Add Task</button>
-                </div>
+            <div class="content-wrapper" style="padding: 0 2rem;">
+                <!-- VIEW SECTIONS -->
 
-                <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:1rem; margin-bottom:1rem;">
+                <!-- HOME DASHBOARD -->
+                <section id="home-view" class="view-section active">
+                    <!-- Injected via JS -->
+                </section>
+
+                <!-- TASKS VIEW -->
+                <section id="tasks-view" class="view-section">
+                    <div class="add-task-form">
+                        <input type="text" id="task-input" class="input-field" placeholder="Add a new task..."
+                            data-i18n="addTask">
+                        <select id="task-cat" class="input-field">
+                            <option value="Personal">Personal</option>
+                            <option value="Work">Work</option>
+                            <option value="Learning">Learning</option>
+                            <option value="Fun">Fun</option>
+                        </select>
+                        <select id="task-prio" class="input-field">
+                            <option value="high">High Info</option>
+                            <option value="medium">Medium</option>
+                            <option value="low">Low</option>
+                        </select>
+                        <button class="btn btn-primary" onclick="/* Add Task Logic in App/Store */ 
+                            const txt = document.getElementById('task-input').value;
+                            const cat = document.getElementById('task-cat').value;
+                            const prio = document.getElementById('task-prio').value;
+                            if(txt) { 
+                                Store.addTask({text:txt, category:cat, priority:prio}); 
+                                document.getElementById('task-input').value=''; 
+                                UI.renderTaskList(); 
+                            }
+                        " data-i18n="addBtn">Add Task</button>
+                    </div>
+
                     <div class="task-filters">
-                        <button class="filter-btn active" data-filter="all">All</button>
-                        <button class="filter-btn" data-filter="pending">Pending</button>
-                        <button class="filter-btn" data-filter="completed">Completed</button>
+                        <button class="filter-btn active" data-i18n="filterAll">All</button>
+                        <button class="filter-btn" data-i18n="filterPending">Pending</button>
+                        <button class="filter-btn" data-i18n="filterCompleted">Completed</button>
                     </div>
-                    <div class="search-bar">
-                        <input type="text" id="search-input" class="input-field" placeholder="Search tasks..."
-                            style="width:200px;">
-                    </div>
-                </div>
 
-                <ul class="task-list" id="task-list">
-                    <!-- Tasks -->
-                </ul>
-            </div>
+                    <ul class="task-list" id="task-list">
+                        <!-- Tasks go here -->
+                    </ul>
+                </section>
 
-            <!-- Languages View -->
-            <div id="languages-view" class="view-section">
-                <!-- Injected by JS -->
-            </div>
+                <!-- LANGUAGES VIEW (Also handles Login/Signup) -->
+                <section id="languages-view" class="view-section">
+                    <!-- Dynamic injection -->
+                </section>
 
-            <!-- Progress View -->
-            <div id="progress-view" class="view-section">
-                <!-- Injected -->
-            </div>
+                <!-- BOOKS VIEW -->
+                <section id="books-view" class="view-section">
+                    <div id="books-grid" class="lang-grid"></div>
+                </section>
 
-            <!-- Settings View -->
-            <div id="settings-view" class="view-section">
-                <div class="card">
-                    <h3>Preferences</h3>
-                    <div style="margin-top:1rem;">
-                        <label style="display:block; margin-bottom:0.5rem;">Username</label>
-                        <input type="text" id="username-input" class="input-field" style="max-width:300px;">
-                    </div>
-                    <div style="margin-top:1rem;">
-                        <label style="display:block; margin-bottom:0.5rem;">Theme</label>
-                        <button id="theme-toggle" class="btn" style="border:1px solid var(--border-color);">Switch
-                            Theme</button>
-                    </div>
-                    <hr style="margin:2rem 0; border:0; border-top:1px solid var(--border-color);">
-                    <button id="clear-data" class="btn btn-danger">Clear All Data</button>
-                </div>
+                <!-- PROGRESS VIEW -->
+                <section id="progress-view" class="view-section">
+                </section>
+
             </div>
         </main>
     </div>
@@ -526,10 +156,14 @@
     <!-- Notification Toast Container -->
     <div id="notification-container" class="notification-container"></div>
 
-    <!-- Scripts -->
+    <!-- SCRIPTS ORDER IS IMPORTANT -->
+    <script src="js/utils.js"></script>
+    <script src="js/i18n.js"></script>
+    <script src="js/auth.js"></script>
     <script src="js/store.js"></script>
     <script src="js/ui.js"></script>
     <script src="js/app.js"></script>
+
 </body>
 
 </html>

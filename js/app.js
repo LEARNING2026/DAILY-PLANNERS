@@ -1,212 +1,181 @@
 /* --- APP LOGIC --- */
-// State
 let currentView = 'home';
-let currentFilter = 'all';
-let currentSearch = '';
 
-// Init
+// Auth & Event Handlers
+const handlers = {
+    login() {
+        const email = document.getElementById('login-email').value;
+        const pass = document.getElementById('login-pass').value;
+        const res = Auth.login(email, pass); // Used Auth module
+        if (res.success) {
+            UI.showToast(`${LanguageManager.get('welcomeBack')}, ${res.user.name}!`, 'success');
+            updateSideProfile(res.user);
+            location.hash = '#home';
+        } else {
+            UI.showToast(res.message, 'error');
+        }
+    },
+
+    register() {
+        const name = document.getElementById('reg-name').value;
+        const email = document.getElementById('reg-email').value;
+        const pass = document.getElementById('reg-pass').value;
+        if (!name || !email || !pass) return UI.showToast(LanguageManager.get('fillAllFields'), 'error');
+
+        const res = Auth.register(name, email, pass); // Used Auth module
+        if (res.success) {
+            UI.showToast(res.message, 'success');
+            location.hash = '#login';
+        } else {
+            UI.showToast(res.message, 'error');
+        }
+    },
+
+    logout() {
+        Auth.logout();
+        updateSideProfile(null);
+        UI.showToast(LanguageManager.get('loggedOut'));
+        location.hash = '#login';
+    },
+
+    completeLesson(lessonId) {
+        Store.updateUserProgress(lessonId, true);
+        UI.showToast(LanguageManager.get('lessonCompleted'), 'success');
+    },
+
+    toggleTask(id, el) {
+        const completed = el.checked;
+        Store.updateTaskStatus(id, completed);
+
+        // Visuals
+        const li = el.closest('.task-item');
+        if (completed) {
+            li.classList.add('completed');
+            // Trigger Confetti
+            const rect = el.getBoundingClientRect();
+            UI.triggerConfetti(rect.left + 20, rect.top);
+            UI.showToast('Task Completed! 🎉', 'success');
+        } else {
+            li.classList.remove('completed');
+        }
+
+        // Refresh Home stats if valid
+        if (currentView === 'home') UI.renderHome();
+    }
+};
+
 function init() {
-    const data = Store.getData();
-    applyTheme(data.settings.theme);
-    if (document.getElementById('sidebar-username')) document.getElementById('sidebar-username').innerText = data.settings.username;
-    if (document.getElementById('username-input')) document.getElementById('username-input').value = data.settings.username;
-    if (document.getElementById('current-date')) document.getElementById('current-date').innerText = new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+    const data = Store.getData(); // General data
+    const user = Auth.getCurrentUser();
 
-    // Hash Routing
+    // Apply theme
+    document.documentElement.setAttribute('data-theme', data.settings.theme);
+
+    // Init Side Profile
+    updateSideProfile(user);
+
+    // Routes
     window.addEventListener('hashchange', handleHash);
-    handleHash(); // Initial load
+    handleHash();
+
+    // Start Ads (Experimental)
+    UI.renderAds();
+
+    // Init Language
+    LanguageManager.init();
+}
+
+function updateSideProfile(user) {
+    const el = document.getElementById('user-profile-area');
+    if (!el) return;
+
+    if (user) {
+        el.innerHTML = `
+            <p style="font-size:0.85rem; color:var(--text-secondary); margin:0;">${LanguageManager.get('signedInAs')}</p>
+            <p style="font-weight:700; margin:0 0 0.5rem 0;">${user.name}</p>
+            <button class="auth-btn" style="border-color:var(--danger-color); color:var(--danger-color);" onclick="app.handlers.logout()">${LanguageManager.get('logout')}</button>
+        `;
+    } else {
+        el.innerHTML = `
+            <p style="font-size:0.85rem; color:var(--text-secondary); margin:0;">${LanguageManager.get('guest')}</p>
+            <button class="auth-btn" onclick="location.hash='#login'">${LanguageManager.get('login')}</button>
+            <button class="auth-btn" style="margin-top:0.5rem" onclick="location.hash='#signup'">${LanguageManager.get('signup')}</button>
+        `;
+    }
 }
 
 function handleHash() {
-    const hash = window.location.hash.slice(1) || 'home';
+    const hash = location.hash.slice(1) || 'home';
+    const parts = hash.split('/');
+    const root = parts[0]; // languages, home, login...
 
-    // Parse complex routes like languages/en/A1
-    if (hash.startsWith('languages')) {
-        const parts = hash.split('/');
-        // languages (hub) -> parts[0]
-        // languages/en -> parts[1]
-        // languages/en/A1 -> parts[2]
+    // Auth Routes
+    if (root === 'login') {
+        showView('languages'); // reuse container
+        UI.renderLogin();
+        return;
+    }
+    if (root === 'signup') {
+        showView('languages');
+        UI.renderSignup();
+        return;
+    }
+
+    // Protection for Languages
+    if (root === 'languages') {
+        if (!Auth.isAuthenticated()) {
+            UI.showToast(LanguageManager.get('pleaseLogin'), 'error');
+            location.hash = '#login';
+            return;
+        }
 
         showView('languages');
 
-        if (parts.length === 3) {
-            UI.renderLessonDashboard(parts[1], parts[2]);
-        } else if (parts.length === 2) {
-            UI.renderLevels(parts[1]);
-        } else {
+        // Router for Language Section
+        if (parts.length === 1) {
             UI.renderLanguagesHub();
+        } else if (parts.length === 2) {
+            // languages/en
+            UI.renderLevels(parts[1]);
+        } else if (parts.length === 3) {
+            // languages/en/A1 -> List of Lessons
+            UI.renderLessonsList(parts[1], parts[2]);
+        } else if (parts.length === 4) {
+            // languages/en/A1/l1 -> Specific Lesson
+            UI.renderLessonDetail(parts[1], parts[2], parts[3]);
         }
         return;
     }
 
-    showView(hash);
+    // Default Views
+    showView(root);
+    if (root === 'home') UI.renderHome();
+    if (root === 'tasks') UI.renderTaskList();
+    if (root === 'books') UI.renderBooks();
+    if (root === 'progress') UI.renderProgress();
 }
 
 function showView(viewName) {
     currentView = viewName;
-    // Sidebar active state
-    document.querySelectorAll('.nav-link').forEach(l => {
-        const href = l.getAttribute('href').replace('#', '');
-        // Simple check if viewName starts with the href link (for languages nested routes)
-        if (viewName.startsWith(href)) {
-            l.classList.add('active');
-        } else {
-            l.classList.remove('active');
-        }
+    // Sidebar active class
+    document.querySelectorAll('.nav-link').forEach(a => {
+        const href = a.getAttribute('href').replace('#', '');
+        a.classList.toggle('active', viewName.startsWith(href));
     });
 
-    // Show Section
+    // Show Container
     document.querySelectorAll('.view-section').forEach(s => s.classList.remove('active'));
-    const target = document.getElementById(`${viewName.split('/')[0]}-view`); // handle nested routes for ID lookup
-    if (target) target.classList.add('active');
-
-    // Update Title
-    const title = viewName.charAt(0).toUpperCase() + viewName.slice(1).split('/')[0];
-    const pageTitle = document.getElementById('page-title');
-    if (pageTitle) pageTitle.innerText = title === 'Home' ? 'Dashboard' : title;
-
-    // Close Mobile Sidebar
-    const sidebar = document.getElementById('sidebar');
-    if (sidebar) sidebar.classList.remove('open');
-
-    // Render Content
-    if (viewName === 'home') UI.renderHome();
-    if (viewName === 'tasks') UI.renderTaskList(currentFilter, currentSearch);
-    if (viewName === 'progress') UI.renderProgress();
-    // Languages rendered by handleHash specific logic
+    // Map viewName to ID (languages uses languages-view, home uses home-view)
+    const containerId = viewName + '-view';
+    const el = document.getElementById(containerId);
+    if (el) el.classList.add('active');
 }
 
-function applyTheme(theme) {
-    document.documentElement.setAttribute('data-theme', theme);
-}
+// Global App Object
+const app = {
+    handlers,
+    init
+};
+window.app = app;
 
-function setupDragAndDrop() {
-    const list = document.getElementById('task-list');
-    if (!list) return; // Guard for other views
-
-    list.addEventListener('dragstart', (e) => {
-        if (e.target.classList.contains('task-item')) {
-            e.target.classList.add('dragging');
-        }
-    });
-
-    list.addEventListener('dragend', (e) => {
-        if (e.target.classList.contains('task-item')) {
-            e.target.classList.remove('dragging');
-            // Save logic here if needed (reorder)
-        }
-    });
-
-    list.addEventListener('dragover', (e) => {
-        e.preventDefault();
-        const afterElement = getDragAfterElement(list, e.clientY);
-        const dragging = document.querySelector('.dragging');
-        if (afterElement == null) {
-            list.appendChild(dragging);
-        } else {
-            list.insertBefore(dragging, afterElement);
-        }
-    });
-}
-
-function getDragAfterElement(container, y) {
-    const draggableElements = [...container.querySelectorAll('.task-item:not(.dragging)')];
-
-    return draggableElements.reduce((closest, child) => {
-        const box = child.getBoundingClientRect();
-        const offset = y - box.top - box.height / 2;
-        if (offset < 0 && offset > closest.offset) {
-            return { offset: offset, element: child };
-        } else {
-            return closest;
-        }
-    }, { offset: Number.NEGATIVE_INFINITY }).element;
-}
-
-// Global Event Listeners
-document.body.addEventListener('click', (e) => {
-    // Add Task
-    if (e.target.id === 'add-btn') {
-        const input = document.getElementById('task-input');
-        const text = input.value.trim();
-        if (text) {
-            Store.addTask({
-                text,
-                category: document.getElementById('task-category').value,
-                priority: document.getElementById('task-priority').value
-            });
-            input.value = '';
-            UI.showToast('Task added!', 'success');
-            if (currentView === 'tasks') UI.renderTaskList(currentFilter, currentSearch);
-        }
-    }
-
-    // Checkbox
-    if (e.target.classList.contains('checkbox') && !e.target.disabled) {
-        const id = e.target.closest('.task-item').dataset.id;
-        const res = Store.toggleTask(id);
-        e.target.closest('.task-item').classList.toggle('completed');
-        if (res.completed && res.earnedPoints) UI.showToast(`+${res.earnedPoints} Points!`, 'success');
-
-        // Refresh whole view if we are filtering or on home
-        if (currentFilter !== 'all' || currentView === 'home') {
-            setTimeout(() => {
-                if (currentView === 'tasks') UI.renderTaskList(currentFilter, currentSearch);
-                else if (currentView === 'home') UI.renderHome();
-            }, 300);
-        }
-    }
-
-    // Delete
-    if (e.target.closest('.delete-btn')) {
-        const id = e.target.closest('.task-item').dataset.id;
-        Store.deleteTask(id);
-        UI.showToast('Task deleted');
-        if (currentView === 'tasks') UI.renderTaskList(currentFilter, currentSearch);
-        else if (currentView === 'home') UI.renderHome();
-    }
-
-    // Mobile Toggle
-    if (e.target.id === 'mobile-toggle') {
-        document.getElementById('sidebar').classList.toggle('open');
-    }
-
-    // Theme Toggle
-    if (e.target.id === 'theme-toggle') {
-        const currentData = Store.getData();
-        const newTheme = currentData.settings.theme === 'light' ? 'dark' : 'light';
-        Store.updateSettings({ theme: newTheme });
-        applyTheme(newTheme);
-    }
-
-    // Clear Data
-    if (e.target.id === 'clear-data') {
-        if (confirm('Are you sure? This will assume factory defaults.')) {
-            Store.clearData();
-        }
-    }
-
-    // Filters
-    if (e.target.classList.contains('filter-btn')) {
-        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-        e.target.classList.add('active');
-        currentFilter = e.target.dataset.filter;
-        UI.renderTaskList(currentFilter, currentSearch);
-    }
-});
-
-// Search input
-document.addEventListener('input', (e) => {
-    if (e.target.id === 'search-input') {
-        currentSearch = e.target.value;
-        UI.renderTaskList(currentFilter, currentSearch);
-    }
-
-    if (e.target.id === 'username-input') {
-        Store.updateSettings({ username: e.target.value });
-        document.getElementById('sidebar-username').innerText = e.target.value;
-    }
-});
-
-// Init on load
 document.addEventListener('DOMContentLoaded', init);
