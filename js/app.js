@@ -71,6 +71,9 @@ function init() {
     // Apply theme
     document.documentElement.setAttribute('data-theme', data.settings.theme);
 
+    // Init PRO System
+    ProManager.init();
+
     // Init Side Profile
     updateSideProfile(user);
 
@@ -144,6 +147,34 @@ function handleHash() {
             // languages/en/A1/l1 -> Specific Lesson
             UI.renderLessonDetail(parts[1], parts[2], parts[3]);
         }
+        return;
+    }
+
+    // PRO Features - Projects
+    if (root === 'projects') {
+        showView('projects');
+        // Check PRO access
+        if (!ProManager.requirePro('Projects Platform')) {
+            // User is not PRO - modal shown, redirect to home
+            location.hash = '#home';
+            return;
+        }
+        // User has PRO access - show maintenance page
+        UI.renderProjects();
+        return;
+    }
+
+    // PRO Features - Tests
+    if (root === 'tests') {
+        showView('tests');
+        // Check PRO access
+        if (!ProManager.requirePro('Personality Tests Platform')) {
+            // User is not PRO - modal shown, redirect to home
+            location.hash = '#home';
+            return;
+        }
+        // User has PRO access - show maintenance page
+        UI.renderTests();
         return;
     }
 

@@ -74,6 +74,7 @@ const UI = {
         const data = Store.getData();
         const pending = data.tasks.filter(t => !t.completed).length;
         const totalPoints = data.points || 0;
+        const isPro = ProManager.isPro();
 
         const homeView = document.getElementById('home-view');
         if (homeView) {
@@ -94,9 +95,49 @@ const UI = {
                 </div>
                 
                 <h3 style="margin-bottom:1rem;">Quick Actions</h3>
-                <div style="display:flex; gap:1rem;">
+                <div style="display:flex; gap:1rem; flex-wrap:wrap;">
                     <button class="btn btn-primary" onclick="location.hash='#tasks'">View Tasks</button>
                     <button class="btn" style="background:var(--bg-card); border:1px solid var(--border-color);" onclick="location.hash='#languages'">Start Learning</button>
+                    <button class="btn" style="background:var(--bg-card); border:1px solid var(--border-color);" onclick="ProManager.togglePro()">
+                        ${isPro ? '⭐ PRO Mode: ON' : '🔒 Enable PRO Mode'}
+                    </button>
+                </div>
+
+                <h3 style="margin: 2.5rem 0 1rem 0;">PRO Features ${isPro ? '✨' : '🔒'}</h3>
+                <div class="lang-grid">
+                    <!-- Projects Card -->
+                    <div class="card pro-feature-card ${!isPro ? 'locked' : ''}" onclick="location.hash='#projects'">
+                        <div style="font-size:3rem; margin-bottom:1rem;">📊</div>
+                        <h3 style="display:flex; align-items:center; justify-content:center; gap:0.5rem;">
+                            Projects
+                            <span class="pro-badge">PRO</span>
+                            ${!isPro ? '<span class="lock-icon">🔒</span>' : ''}
+                        </h3>
+                        <p style="color:var(--text-secondary); margin:0.75rem 0;">
+                            Manage personal and team projects with tasks, deadlines, and progress tracking
+                        </p>
+                        <div class="maintenance-badge" style="margin-top:1rem;">
+                            <span class="maintenance-icon">🛠</span>
+                            <span>Under Maintenance</span>
+                        </div>
+                    </div>
+
+                    <!-- Tests Card -->
+                    <div class="card pro-feature-card ${!isPro ? 'locked' : ''}" onclick="location.hash='#tests'">
+                        <div style="font-size:3rem; margin-bottom:1rem;">🧠</div>
+                        <h3 style="display:flex; align-items:center; justify-content:center; gap:0.5rem;">
+                            Personality Tests
+                            <span class="pro-badge">PRO</span>
+                            ${!isPro ? '<span class="lock-icon">🔒</span>' : ''}
+                        </h3>
+                        <p style="color:var(--text-secondary); margin:0.75rem 0;">
+                            Take psychological self-assessments with detailed personality analysis
+                        </p>
+                        <div class="maintenance-badge" style="margin-top:1rem;">
+                            <span class="maintenance-icon">🛠</span>
+                            <span>Under Maintenance</span>
+                        </div>
+                    </div>
                 </div>
             `;
         }
@@ -312,6 +353,94 @@ const UI = {
             `;
             adEl.classList.remove('hidden');
         }
+    },
+
+    /* --- PRO FEATURES --- */
+
+    /**
+     * Render Projects Platform (Maintenance Mode)
+     */
+    renderProjects() {
+        const container = document.getElementById('projects-view');
+        if (!container) return;
+
+        container.innerHTML = `
+            <div class="maintenance-overlay">
+                <div class="maintenance-content">
+                    <div class="maintenance-big-icon">🛠</div>
+                    <h1 class="maintenance-title">
+                        Projects Platform
+                        <span class="pro-badge" style="margin-left:1rem;">PRO</span>
+                    </h1>
+                    <p class="maintenance-description">
+                        This feature is currently under maintenance. We're building something amazing for you!
+                    </p>
+                    <div class="maintenance-badge">
+                        <span class="maintenance-icon">🛠</span>
+                        <span>Under Maintenance</span>
+                    </div>
+
+                    <div class="feature-description">
+                        <h3>📊 What's Coming</h3>
+                        <ul>
+                            <li>Personal project management with tasks and deadlines</li>
+                            <li>Team collaboration with shared projects</li>
+                            <li>Progress tracking and analytics dashboard</li>
+                            <li>Gantt charts and timeline views</li>
+                            <li>File attachments and comments</li>
+                            <li>Real-time notifications</li>
+                        </ul>
+                    </div>
+
+                    <button class="btn" style="margin-top:2rem;" onclick="location.hash='#home'">
+                        ← Back to Home
+                    </button>
+                </div>
+            </div>
+        `;
+    },
+
+    /**
+     * Render Personality Tests Platform (Maintenance Mode)
+     */
+    renderTests() {
+        const container = document.getElementById('tests-view');
+        if (!container) return;
+
+        container.innerHTML = `
+            <div class="maintenance-overlay">
+                <div class="maintenance-content">
+                    <div class="maintenance-big-icon">🛠</div>
+                    <h1 class="maintenance-title">
+                        Personality Tests
+                        <span class="pro-badge" style="margin-left:1rem;">PRO</span>
+                    </h1>
+                    <p class="maintenance-description">
+                        This feature is currently under maintenance. We're preparing comprehensive psychological assessments!
+                    </p>
+                    <div class="maintenance-badge">
+                        <span class="maintenance-icon">🛠</span>
+                        <span>Under Maintenance</span>
+                    </div>
+
+                    <div class="feature-description">
+                        <h3>🧠 What's Coming</h3>
+                        <ul>
+                            <li>20-question psychological self-assessment tests</li>
+                            <li>Multiple test types (personality, intelligence, emotional)</li>
+                            <li>Automatic result calculation and analysis</li>
+                            <li>Detailed personality insights and recommendations</li>
+                            <li>Test history tracking and comparison</li>
+                            <li>PDF report generation and export</li>
+                        </ul>
+                    </div>
+
+                    <button class="btn" style="margin-top:2rem;" onclick="location.hash='#home'">
+                        ← Back to Home
+                    </button>
+                </div>
+            </div>
+        `;
     }
 };
 window.UI = UI;

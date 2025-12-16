@@ -362,6 +362,292 @@
     border-left-color: var(--danger-color);
 }
 
+/* ============================================
+   PRO FEATURES STYLES
+   ============================================ */
+
+/* Lock Icon */
+.lock-icon {
+    font-size: 1.2rem;
+    opacity: 0.7;
+    margin-left: 0.5rem;
+}
+
+/* PRO Feature Card */
+.pro-feature-card {
+    position: relative;
+    cursor: pointer;
+}
+
+.pro-feature-card.locked {
+    opacity: 0.85;
+}
+
+.pro-feature-card.locked::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.05), rgba(168, 85, 247, 0.05));
+    border-radius: var(--radius-lg);
+    pointer-events: none;
+}
+
+/* Maintenance Badge */
+.maintenance-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: linear-gradient(135deg, #fbbf24, #f59e0b);
+    color: #78350f;
+    border-radius: 2rem;
+    font-size: 0.85rem;
+    font-weight: 700;
+    box-shadow: 0 4px 10px rgba(251, 191, 36, 0.3);
+    animation: maintenance-pulse 2s ease-in-out infinite;
+}
+
+.maintenance-icon {
+    font-size: 1.2rem;
+    animation: maintenance-rotate 3s linear infinite;
+}
+
+/* Maintenance Overlay */
+.maintenance-overlay {
+    position: relative;
+    min-height: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 3rem;
+    background: var(--bg-card);
+    border-radius: var(--radius-lg);
+    border: 2px dashed var(--border-color);
+}
+
+.maintenance-overlay::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: repeating-linear-gradient(45deg,
+            transparent,
+            transparent 10px,
+            rgba(99, 102, 241, 0.02) 10px,
+            rgba(99, 102, 241, 0.02) 20px);
+    border-radius: var(--radius-lg);
+    pointer-events: none;
+}
+
+.maintenance-content {
+    position: relative;
+    z-index: 1;
+}
+
+.maintenance-big-icon {
+    font-size: 5rem;
+    margin-bottom: 1.5rem;
+    opacity: 0.6;
+    animation: maintenance-rotate 4s linear infinite;
+}
+
+.maintenance-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+}
+
+.maintenance-description {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+    max-width: 500px;
+}
+
+.feature-description {
+    background: var(--bg-body);
+    padding: 1.5rem;
+    border-radius: var(--radius-md);
+    margin-top: 2rem;
+    border: 1px solid var(--border-color);
+}
+
+.feature-description h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.75rem;
+    color: var(--text-primary);
+}
+
+.feature-description ul {
+    list-style: none;
+    padding: 0;
+    text-align: left;
+}
+
+.feature-description li {
+    padding: 0.5rem 0;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.feature-description li::before {
+    content: '✨';
+    font-size: 1.2rem;
+}
+
+/* Upgrade Modal */
+.upgrade-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    padding: 1rem;
+}
+
+.upgrade-modal-overlay.active {
+    opacity: 1;
+}
+
+.upgrade-modal {
+    background: var(--bg-card);
+    border-radius: var(--radius-lg);
+    max-width: 500px;
+    width: 100%;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--border-color);
+    transform: scale(0.9);
+    transition: transform 0.3s ease;
+}
+
+.upgrade-modal-overlay.active .upgrade-modal {
+    transform: scale(1);
+}
+
+.upgrade-modal-header {
+    padding: 2rem 2rem 1rem;
+    text-align: center;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.upgrade-icon {
+    font-size: 3rem;
+    display: block;
+    margin-bottom: 1rem;
+}
+
+.upgrade-modal-header h2 {
+    font-size: 1.75rem;
+    margin: 0;
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.upgrade-modal-body {
+    padding: 2rem;
+}
+
+.upgrade-feature-name {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+}
+
+.upgrade-description {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 2rem;
+}
+
+.upgrade-benefits {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.benefit-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.75rem;
+    background: var(--bg-body);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-color);
+    transition: all 0.2s ease;
+}
+
+.benefit-item:hover {
+    border-color: var(--primary-color);
+    transform: translateX(4px);
+}
+
+.benefit-icon {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.upgrade-modal-footer {
+    padding: 1.5rem 2rem 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.upgrade-btn {
+    width: 100%;
+    font-size: 1.1rem;
+    padding: 1rem;
+}
+
+.close-modal-btn {
+    width: 100%;
+}
+
+/* Animations */
+@keyframes maintenance-pulse {
+
+    0%,
+    100% {
+        box-shadow: 0 4px 10px rgba(251, 191, 36, 0.3);
+    }
+
+    50% {
+        box-shadow: 0 4px 20px rgba(251, 191, 36, 0.5);
+    }
+}
+
+@keyframes maintenance-rotate {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
 /* Responsive adjustments for tasks */
 @media (max-width: 768px) {
     .add-task-form {
