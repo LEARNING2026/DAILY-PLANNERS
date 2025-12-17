@@ -1,0 +1,378 @@
+/* ============================================
+   MOBILE PERFORMANCE OPTIMIZATIONS
+   Additional CSS for better mobile performance
+   ============================================ */
+
+/* ===== PERFORMANCE OPTIMIZATIONS ===== */
+
+/**
+ * GPU Acceleration for animations
+ * Forces hardware acceleration for smoother animations
+ */
+.card,
+.btn,
+.nav-link,
+.task-item,
+.progress-fill {
+    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+}
+
+/**
+ * Optimize scroll performance
+ * Reduces repaints during scrolling
+ */
+.app-container,
+.main-content,
+.sidebar {
+    -webkit-overflow-scrolling: touch;
+}
+
+
+/**
+ * Reduce motion for users who prefer it
+ * Improves performance and accessibility
+ */
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* ===== TOUCH OPTIMIZATIONS ===== */
+
+/**
+ * Remove tap highlight on mobile
+ * Provides cleaner touch interactions
+ */
+button,
+a,
+.btn,
+.nav-link,
+.task-item,
+.card {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    touch-action: manipulation;
+}
+
+/**
+ * Improve touch target sizes
+ * Minimum 44x44px for better mobile UX
+ */
+.btn,
+.nav-link,
+button,
+input[type="checkbox"],
+input[type="radio"] {
+    min-height: 44px;
+    min-width: 44px;
+}
+
+/* ===== LAZY LOADING SUPPORT ===== */
+
+/**
+ * Lazy loading images
+ * Shows placeholder while loading
+ */
+img[loading="lazy"] {
+    opacity: 0;
+    transition: opacity 0.3s ease-in;
+}
+
+img[loading="lazy"].loaded {
+    opacity: 1;
+}
+
+/* Placeholder for lazy images */
+img[data-src]:not([src]) {
+    background: linear-gradient(90deg,
+            var(--border-color) 0%,
+            rgba(var(--border-color-rgb), 0.5) 50%,
+            var(--border-color) 100%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -200% 0;
+    }
+
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+/* ===== MOBILE-SPECIFIC IMPROVEMENTS ===== */
+
+/**
+ * Optimize for mobile devices
+ * Better spacing and touch targets
+ */
+@media (max-width: 768px) {
+
+    /* Larger touch targets */
+    .btn {
+        padding: 0.875rem 1.5rem;
+        font-size: 1rem;
+    }
+
+    /* Better spacing */
+    .card {
+        padding: 1.25rem;
+        margin-bottom: 1rem;
+    }
+
+    /* Optimize sidebar for mobile */
+    .sidebar {
+        width: 100%;
+        max-width: 280px;
+    }
+
+    /* Stack elements vertically */
+    .stats-grid,
+    .features-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    /* Larger font for readability */
+    body {
+        font-size: 16px;
+    }
+
+    h1 {
+        font-size: 1.75rem;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    h3 {
+        font-size: 1.25rem;
+    }
+}
+
+/* ===== PERFORMANCE: CSS CONTAINMENT ===== */
+
+/**
+ * CSS Containment for better rendering performance
+ * Isolates elements to reduce browser work
+ */
+.card,
+.task-item,
+.lesson-card,
+.project-card {
+    contain: layout style paint;
+}
+
+.sidebar,
+.main-content {
+    contain: layout style;
+}
+
+/* ===== OPTIMIZE ANIMATIONS ===== */
+
+/**
+ * Simplified animations for mobile
+ * Reduces CPU usage
+ */
+@media (max-width: 768px) {
+
+    /* Simpler fade animations */
+    .fade-in {
+        animation: simpleFadeIn 0.3s ease-out;
+    }
+
+    @keyframes simpleFadeIn {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+
+    /* Disable complex animations */
+    .animated-bg {
+        animation: none;
+        background: var(--primary-gradient);
+    }
+
+    /* Simpler hover effects */
+    .card:hover {
+        transform: none;
+        box-shadow: var(--shadow-md);
+    }
+}
+
+/* ===== LOADING STATES ===== */
+
+/**
+ * Loading indicators
+ * Provides visual feedback during loading
+ */
+.loading {
+    position: relative;
+    pointer-events: none;
+    opacity: 0.6;
+}
+
+.loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 24px;
+    height: 24px;
+    margin: -12px 0 0 -12px;
+    border: 3px solid var(--primary-color);
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ===== SAFE AREA SUPPORT ===== */
+
+/**
+ * Support for device notches and safe areas
+ * Ensures content is visible on all devices
+ */
+@supports (padding: max(0px)) {
+    .app-container {
+        padding-left: max(0px, env(safe-area-inset-left));
+        padding-right: max(0px, env(safe-area-inset-right));
+    }
+
+    .sidebar {
+        padding-top: max(1rem, env(safe-area-inset-top));
+        padding-bottom: max(1rem, env(safe-area-inset-bottom));
+    }
+}
+
+/* ===== ORIENTATION SUPPORT ===== */
+
+/**
+ * Optimize for landscape mode on mobile
+ */
+@media (max-width: 768px) and (orientation: landscape) {
+    .sidebar {
+        width: 200px;
+    }
+
+    .page-header {
+        padding: 0.75rem 1rem;
+    }
+
+    .card {
+        padding: 1rem;
+    }
+}
+
+/* ===== NETWORK-AWARE LOADING ===== */
+
+/**
+ * Reduce animations on slow connections
+ * Detected via JavaScript and applied via class
+ */
+.slow-connection * {
+    animation-duration: 0.1s !important;
+    transition-duration: 0.1s !important;
+}
+
+.slow-connection .animated-bg {
+    animation: none;
+}
+
+/* ===== FOCUS VISIBLE (Accessibility + Performance) ===== */
+
+/**
+ * Modern focus indicators
+ * Better than default outline
+ */
+:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
+:focus:not(:focus-visible) {
+    outline: none;
+}
+
+/* ===== PRINT OPTIMIZATION ===== */
+
+/**
+ * Optimize for printing
+ * Removes unnecessary elements
+ */
+@media print {
+
+    .sidebar,
+    .page-header,
+    .animated-bg,
+    .notification-container {
+        display: none !important;
+    }
+
+    .main-content {
+        width: 100%;
+        padding: 0;
+    }
+
+    .card {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+}
+
+/* ===== DARK MODE OPTIMIZATIONS ===== */
+
+/**
+ * Optimize dark mode for OLED screens
+ * True black saves battery on OLED
+ */
+@media (prefers-color-scheme: dark) {
+    [data-theme="dark"] {
+        --bg-primary: #000000;
+        --bg-secondary: #0a0a0a;
+    }
+}
+
+/* ===== CRITICAL CSS INLINE CANDIDATE ===== */
+
+/**
+ * These styles should be inlined in <head> for faster FCP
+ * (First Contentful Paint)
+ */
+/*
+:root {
+    --primary-color: #6366f1;
+    --bg-primary: #ffffff;
+}
+
+body {
+    margin: 0;
+    font-family: 'Outfit', sans-serif;
+}
+
+.app-container {
+    display: flex;
+}
+*/
