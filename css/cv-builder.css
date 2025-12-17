@@ -1,0 +1,340 @@
+/* ============================================
+   CV BUILDER STYLES
+   ============================================ */
+
+.cv-builder-container {
+    display: grid;
+    grid-template-columns: 350px 1fr;
+    gap: 2rem;
+    height: calc(100vh - 80px);
+    /* Adjust based on header/padding */
+    overflow: hidden;
+}
+
+/* --- LEFT CONTROL PANEL --- */
+.cv-controls {
+    background: var(--bg-card);
+    border-right: 1px solid var(--border-color);
+    padding: 1.5rem;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.cv-controls h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+}
+
+.control-group {
+    background: var(--bg-body);
+    padding: 1rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-color);
+}
+
+.control-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.color-picker-wrapper {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.color-swatch {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: transform 0.2s;
+}
+
+.color-swatch.active {
+    border-color: var(--text-primary);
+    transform: scale(1.1);
+}
+
+.font-selector {
+    width: 100%;
+}
+
+/* Draggable Sections */
+.draggable-sections {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.draggable-item {
+    background: var(--bg-card);
+    padding: 0.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: grab;
+    user-select: none;
+    transition: background 0.2s;
+}
+
+.draggable-item:hover {
+    background: var(--bg-body);
+}
+
+.draggable-item.dragging {
+    opacity: 0.5;
+    background: var(--primary-color);
+    color: white;
+}
+
+.drag-handle {
+    color: var(--text-secondary);
+    cursor: grab;
+}
+
+/* --- RIGHT PREVIEW PANEL --- */
+.cv-preview-area {
+    background: #525659;
+    /* Dark grey background like PDF viewers */
+    padding: 2rem;
+    overflow-y: auto;
+    display: flex;
+    justify-content: center;
+}
+
+.cv-page {
+    background: white;
+    width: 210mm;
+    /* A4 width */
+    min-height: 297mm;
+    /* A4 height */
+    padding: 40px;
+    /* Margins */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    color: #333;
+    font-family: 'Inter', sans-serif;
+    position: relative;
+    /* contenteditable styling */
+}
+
+/* CV Layout inside Page */
+.cv-header {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 30px;
+    border-bottom: 2px solid var(--cv-color, #333);
+    padding-bottom: 20px;
+}
+
+.cv-photo-container {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: #eee;
+    flex-shrink: 0;
+    position: relative;
+    cursor: pointer;
+}
+
+.cv-photo-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.cv-photo-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: #aaa;
+    font-size: 0.8rem;
+    text-align: center;
+}
+
+.cv-header-info {
+    flex-grow: 1;
+}
+
+.cv-name {
+    font-size: 2rem;
+    font-weight: 800;
+    margin: 0;
+    color: var(--cv-color, #333);
+    outline: none;
+    /* remove blue outline on edit */
+}
+
+.cv-job-title {
+    font-size: 1.2rem;
+    color: #666;
+    margin: 5px 0 10px;
+    outline: none;
+}
+
+.cv-contact-info {
+    display: flex;
+    gap: 15px;
+    font-size: 0.9rem;
+    color: #555;
+    flex-wrap: wrap;
+}
+
+.cv-section {
+    margin-bottom: 25px;
+}
+
+.cv-section-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 15px;
+    padding-bottom: 5px;
+    color: var(--cv-color, #333);
+    display: flex;
+    justify-content: space-between;
+}
+
+.cv-item {
+    margin-bottom: 15px;
+    position: relative;
+}
+
+.cv-item:hover .cv-item-controls {
+    display: flex;
+}
+
+.cv-item-controls {
+    display: none;
+    position: absolute;
+    right: -30px;
+    top: 0;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.cv-btn-add,
+.cv-btn-remove {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+}
+
+.cv-btn-add {
+    background: #10b981;
+    color: white;
+}
+
+.cv-btn-remove {
+    background: #ef4444;
+    color: white;
+}
+
+.cv-item-title {
+    font-weight: 700;
+    font-size: 1rem;
+}
+
+.cv-item-subtitle {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #444;
+}
+
+.cv-item-date {
+    font-size: 0.85rem;
+    color: #666;
+    margin-bottom: 5px;
+    font-style: italic;
+}
+
+.cv-item-desc {
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+[contenteditable]:hover {
+    background: rgba(0, 0, 0, 0.02);
+    border-radius: 3px;
+    cursor: text;
+}
+
+[contenteditable]:focus {
+    background: rgba(0, 0, 0, 0.05);
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 900px) {
+    .cv-builder-container {
+        grid-template-columns: 1fr;
+        height: auto;
+        overflow: visible;
+    }
+
+    .cv-controls {
+        height: auto;
+        border-right: none;
+        border-bottom: 1px solid var(--border-color);
+    }
+}
+
+/* --- PRINT / PDF EXPORT --- */
+@media print {
+    @page {
+        margin: 0;
+        size: auto;
+        /* let browser handle size */
+    }
+
+    body * {
+        visibility: hidden;
+        /* Hide everything by default */
+    }
+
+    .cv-page,
+    .cv-page * {
+        visibility: visible;
+        /* Show only CV page */
+    }
+
+    .cv-page {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        margin: 0;
+        padding: 40px;
+        /* Keep CV padding */
+        box-shadow: none;
+        min-height: auto;
+        /* Allow natural height */
+    }
+
+    /* Hide interactive controls in print */
+    .cv-item-controls,
+    .cv-photo-placeholder {
+        display: none !important;
+    }
+
+    /* Ensure colors print */
+    * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+}

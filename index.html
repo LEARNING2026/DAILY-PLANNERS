@@ -3,42 +3,255 @@
 
 <head>
     <meta charset="UTF-8">
-    <!-- Optimized viewport for mobile performance -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>PlanHub - Ultimate Productivity & Learning Platform</title>
     <meta name="description"
-        content="Ultimate productivity platform with tasks, learning, tests, and progress tracking">
+        content="Boost your productivity with PlanHub. Manage tasks, learn languages, take psychological tests, and track your progress in one modern platform.">
+    <!-- Open Graph / SEO -->
+    <meta property="og:title" content="PlanHub - Productivity & Learning">
+    <meta property="og:description" content="Manage tasks, learn languages, and track progress with PlanHub.">
+    <meta property="og:image" content="assets/og-image.jpg">
+    <meta property="og:type" content="website">
     <meta name="theme-color" content="#6366f1">
-    <title>Ultimate Daily Planner & Learning Hub</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!-- Optimized font loading with display=swap for faster rendering -->
     <link
-        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600&display=swap"
-        rel="stylesheet" media="print" onload="this.media='all'">
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet"
-        media="print" onload="this.media='all'">
-    <!-- For Arabic -->
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600&family=Tajawal:wght@400;500;700&display=swap"
+        rel="stylesheet">
 
-    <!-- Modular CSS -->
+    <!-- CSS -->
     <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="css/layout.css">
     <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/landing.css"> <!-- New Landing Styles -->
     <link rel="stylesheet" href="css/rtl.css">
     <link rel="stylesheet" href="css/performance.css">
+
+    <!-- AOS Animation CSS (Lightweight version typically) or custom -->
+    <!-- We will use custom CSS animations defined in main.css -->
 </head>
 
 <body class="light">
 
-    <!-- Animated Gradient Background -->
+    <!-- Animated Background -->
     <div class="animated-bg"></div>
 
-    <div class="app-container">
+    <!-- ============================================
+         LANDING PAGE VIEW (Default for Visitors)
+         ============================================ -->
+    <div id="landing-view">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-container">
+                <div class="logo">
+                    <span style="font-size: 1.5rem;">🚀</span>
+                    <span class="logo-text"
+                        style="font-weight:800; font-size:1.5rem; margin-left:0.5rem;">PlanHub</span>
+                </div>
+                <nav class="nav-menu">
+                    <a href="#hero" class="nav-link active">Home</a>
+                    <a href="#features" class="nav-link">Features</a>
+                    <a href="#services" class="nav-link">Services</a>
+                    <a href="#reviews" class="nav-link">Reviews</a>
+                </nav>
+                <div class="header-cta">
+                    <button class="btn btn-secondary" onclick="App.switchToApp()">Log In</button>
+                    <button class="btn btn-primary" onclick="App.switchToApp()">Get Started</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Hero -->
+        <section id="hero" class="hero-modern">
+            <div class="hero-content-wrapper">
+                <h1 class="hero-title-modern">Master Your Day,<br>Expand Your Mind.</h1>
+                <p class="hero-subtitle-modern">
+                    The all-in-one platform for task management, language learning, and personal growth.
+                    Simple, beautiful, and powerful.
+                </p>
+                <div class="hero-btns">
+                    <button class="btn btn-primary btn-large" onclick="App.switchToApp()">Launch App 🚀</button>
+                    <button class="btn btn-secondary btn-large"
+                        onclick="document.getElementById('features').scrollIntoView({behavior: 'smooth'})">Learn
+                        More</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features -->
+        <section id="features" class="features-section">
+            <div class="container">
+                <h2 class="section-title">Why PlanHub?</h2>
+                <p class="section-subtitle">Everything you need to stay organized and keep growing.</p>
+
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">✅</div>
+                        <h3 class="feature-title">Smart Tasks</h3>
+                        <p class="feature-description">Organize tasks with priorities, categories, and tags. Never miss
+                            a deadline again.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🧠</div>
+                        <h3 class="feature-title">Self-Discovery</h3>
+                        <p class="feature-description">Access professional psychological tests to understand yourself
+                            better.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🌍</div>
+                        <h3 class="feature-title">Language Hub</h3>
+                        <p class="feature-description">Learn 5+ languages with interactive lessons and flashcards.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services -->
+        <section id="services" class="services-section">
+            <div class="container">
+                <h2 class="section-title">Our Capabilities</h2>
+                <div class="services-grid" id="services-grid-render">
+                    <!-- Service 1 -->
+                    <div class="service-card">
+                        <div class="service-icon-box">💻</div>
+                        <h3 class="service-title">Web Development</h3>
+                        <p class="service-desc">We build high-performance web applications tailored to your productivity
+                            needs.</p>
+                    </div>
+                    <!-- Service 2 -->
+                    <div class="service-card">
+                        <div class="service-icon-box">📊</div>
+                        <h3 class="service-title">Data Analytics</h3>
+                        <p class="service-desc">Visualize your progress with stunning charts and detailed insights.</p>
+                    </div>
+                    <!-- Service 3 -->
+                    <div class="service-card">
+                        <div class="service-icon-box">🎓</div>
+                        <h3 class="service-title">Education Tech</h3>
+                        <p class="service-desc">Innovative learning tools designed to make education accessible and fun.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials -->
+        <section id="reviews" class="testimonials-section">
+            <div class="container">
+                <h2 class="section-title">What Users Say</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8"
+                    style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+                    <div class="testimonial-card">
+                        <img src="assets/avatar1.png" alt="" class="testimonial-avatar"
+                            onerror="this.src='https://via.placeholder.com/80?text=U1'">
+                        <p class="testimonial-text">"PlanHub completely changed how I organize my studies. The language
+                            section is a game changer!"</p>
+                        <div class="testimonial-info">
+                            <div class="testimonial-author">Sarah Jenkins</div>
+                            <div class="testimonial-role">Student</div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <img src="assets/avatar2.png" alt="" class="testimonial-avatar"
+                            onerror="this.src='https://via.placeholder.com/80?text=U2'">
+                        <p class="testimonial-text">"The interface is so smooth and beautiful. I actually look forward
+                            to checking off my tasks."</p>
+                        <div class="testimonial-info">
+                            <div class="testimonial-author">Mike Ross</div>
+                            <div class="testimonial-role">Freelancer</div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <img src="assets/avatar3.png" alt="" class="testimonial-avatar"
+                            onerror="this.src='https://via.placeholder.com/80?text=U3'">
+                        <p class="testimonial-text">"I love the psychological tests. They gave me great insights into my
+                            working style."</p>
+                        <div class="testimonial-info">
+                            <div class="testimonial-author">Amira K.</div>
+                            <div class="testimonial-role">Designer</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact & Newsletter -->
+        <section id="contact" class="contact-section">
+            <div class="container">
+                <h2 class="section-title">Get in Touch</h2>
+                <div class="contact-form-container">
+                    <form onsubmit="event.preventDefault(); alert('Message sent!');">
+                        <div class="form-group-modern">
+                            <label>Name</label>
+                            <input type="text" class="input-field" placeholder="Your Name" required>
+                        </div>
+                        <div style="height:1rem;"></div>
+                        <div class="form-group-modern">
+                            <label>Email</label>
+                            <input type="email" class="input-field" placeholder="john@example.com" required>
+                        </div>
+                        <div style="height:1rem;"></div>
+                        <div class="form-group-modern">
+                            <label>Message</label>
+                            <input type="text" class="input-field" placeholder="How can we help?"
+                                style="padding-bottom: 3rem;" required>
+                        </div>
+                        <div style="height:2rem;"></div>
+                        <button type="submit" class="btn btn-primary" style="width:100%;">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer-modern">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>PlanHub</h4>
+                    <p style="color:#94a3b8; font-size:0.9rem;">Making productivity beautiful and accessible for
+                        everyone.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Product</h4>
+                    <ul class="footer-links">
+                        <a href="#">Features</a>
+                        <a href="#">Pricing</a>
+                        <a href="#">Download</a>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Company</h4>
+                    <ul class="footer-links">
+                        <a href="#">About</a>
+                        <a href="#">Careers</a>
+                        <a href="#">Contact</a>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Legal</h4>
+                    <ul class="footer-links">
+                        <a href="#">Privacy</a>
+                        <a href="#">Terms</a>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                &copy; 2025 PlanHub. All rights reserved.
+            </div>
+        </footer>
+    </div>
+    <!-- END LANDING VIEW -->
+
+    <!-- ============================================
+         APP VIEW (Hidden by default)
+         ============================================ -->
+    <div id="app-container" class="app-container" style="display: none;">
         <!-- SIDEBAR -->
         <aside class="sidebar" id="sidebar">
             <div class="brand">
-                <span>🚀 PlanHub</span>
+                <span onclick="App.switchToLanding()" style="cursor:pointer;">🚀 PlanHub</span>
                 <span class="pro-badge" style="font-size:0.5rem; align-self:flex-start;">PRO</span>
             </div>
 
@@ -69,6 +282,11 @@
                 <a href="#settings" class="nav-link">
                     <span>⚙️</span> <span data-i18n="settings">Settings</span>
                 </a>
+                <div style="margin-top:auto; padding-top:1rem; border-top:1px solid var(--border-color);">
+                    <a href="#" class="nav-link" onclick="App.switchToLanding()">
+                        <span>🔙</span> <span>Exit App</span>
+                    </a>
+                </div>
             </nav>
 
             <div class="user-profile" id="user-profile-area">
@@ -85,7 +303,7 @@
             <header class="page-header">
                 <button class="mobile-toggle"
                     onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
-                <div class="page-title" id="page-title"></div>
+                <div class="page-title" id="page-title">Dashboard</div>
                 <div class="header-actions" style="display:flex; gap:1rem; align-items:center;">
                     <select id="lang-selector" class="input-field" style="padding:0.5rem;"
                         onchange="LanguageManager.setLanguage(this.value)">
@@ -96,19 +314,18 @@
                 </div>
             </header>
 
-            <!-- HERO SECTION -->
+            <!-- HERO SECTION (APP) -->
             <div class="hero-section">
                 <div class="hero-bg-shape"></div>
                 <div class="hero-content">
                     <h1 class="hero-title"><span data-i18n="welcome">Welcome,</span> <span
-                            id="hero-username">Guest</span>!</h1>
+                            id="hero-username">User</span>!</h1>
                     <p class="hero-subtitle" data-i18n="heroSubtitle">Let's be productive today.</p>
                 </div>
             </div>
 
             <div class="content-wrapper" style="padding: 0 2rem;">
-                <!-- VIEW SECTIONS -->
-
+                <!-- VIEW SECTIONS (Same as before) -->
                 <!-- HOME DASHBOARD -->
                 <section id="home-view" class="view-section active">
                     <!-- Injected via JS -->
@@ -130,7 +347,7 @@
                             <option value="medium">Medium</option>
                             <option value="low">Low</option>
                         </select>
-                        <button class="btn btn-primary" onclick="/* Add Task Logic in App/Store */ 
+                        <button class="btn btn-primary" onclick="
                             const txt = document.getElementById('task-input').value;
                             const cat = document.getElementById('task-cat').value;
                             const prio = document.getElementById('task-prio').value;
@@ -153,9 +370,8 @@
                     </ul>
                 </section>
 
-                <!-- LANGUAGES VIEW (Also handles Login/Signup) -->
+                <!-- LANGUAGES VIEW -->
                 <section id="languages-view" class="view-section">
-                    <!-- Dynamic injection -->
                 </section>
 
                 <!-- BOOKS VIEW -->
@@ -169,17 +385,14 @@
 
                 <!-- PROJECTS VIEW (PRO) -->
                 <section id="projects-view" class="view-section">
-                    <!-- Injected via JS -->
                 </section>
 
                 <!-- TESTS VIEW (PRO) -->
                 <section id="tests-view" class="view-section">
-                    <!-- Injected via JS -->
                 </section>
 
                 <!-- SETTINGS VIEW -->
                 <section id="settings-view" class="view-section">
-                    <!-- Injected via JS -->
                 </section>
 
             </div>
@@ -189,65 +402,36 @@
     <!-- Notification Toast Container -->
     <div id="notification-container" class="notification-container"></div>
 
-    <!-- OPTIMIZED SCRIPTS - Deferred for faster page load -->
-    <!-- Core utilities and data -->
+    <!-- Scripts -->
     <script src="js/utils.js" defer></script>
     <script src="js/i18n.js" defer></script>
     <script src="js/auth.js" defer></script>
     <script src="js/pro.js" defer></script>
     <script src="js/store.js" defer></script>
-
-    <!-- Feature modules -->
     <script src="js/modules/projects.js" defer></script>
     <script src="js/modules/tests.js" defer></script>
-
-    <!-- UI and app logic -->
     <script src="js/ui.js" defer></script>
     <script src="js/app.js" defer></script>
-
-    <!-- Modern enhancements (async for non-critical features) -->
     <script src="js/modern-enhancements.js" async></script>
-
-    <!-- Performance utilities (loaded early for optimization) -->
     <script src="js/performance.js" defer></script>
 
-    <!-- Service Worker Registration for offline support and caching -->
     <script>
-        // Register service worker for performance and offline support
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js')
-                    .then(registration => {
-                        console.log('✅ Service Worker registered successfully:', registration.scope);
+        // Simple Interaction Logic for Transitions
+        window.App = window.App || {};
+        window.App.switchToApp = function () {
+            document.getElementById('landing-view').style.display = 'none';
+            document.getElementById('app-container').style.display = 'flex';
+            // Trigger a resize event to ensure charts/grids render correctly
+            window.dispatchEvent(new Event('resize'));
+        };
 
-                        // Check for updates periodically
-                        setInterval(() => {
-                            registration.update();
-                        }, 60000); // Check every minute
-                    })
-                    .catch(error => {
-                        console.log('❌ Service Worker registration failed:', error);
-                    });
-            });
-        }
+        window.App.switchToLanding = function () {
+            document.getElementById('app-container').style.display = 'none';
+            document.getElementById('landing-view').style.display = 'block';
+        };
 
-        // Performance monitoring
-        window.addEventListener('load', () => {
-            // Log performance metrics
-            if (window.performance && window.performance.timing) {
-                const perfData = window.performance.timing;
-                const pageLoadTime = perfData.loadEventEnd - perfData.navigationStart;
-                const connectTime = perfData.responseEnd - perfData.requestStart;
-                const renderTime = perfData.domComplete - perfData.domLoading;
-
-                console.log('📊 Performance Metrics:');
-                console.log(`  Page Load Time: ${pageLoadTime}ms`);
-                console.log(`  Server Response: ${connectTime}ms`);
-                console.log(`  DOM Render Time: ${renderTime}ms`);
-            }
-        });
+        // If user is logged in, maybe auto-switch? (Logic can be added to auth.js)
     </script>
-
 </body>
 
 </html>

@@ -188,6 +188,17 @@ function handleHash() {
         return;
     }
 
+    // NEW: CV Builder
+    if (root === 'cv-builder') {
+        showView('cv-builder');
+        if (window.CVBuilder) {
+            window.CVBuilder.init();
+        } else {
+            console.error('CVBuilder module not loaded');
+        }
+        return;
+    }
+
     // Default Views
     showView(root);
     if (root === 'home') UI.renderHome();

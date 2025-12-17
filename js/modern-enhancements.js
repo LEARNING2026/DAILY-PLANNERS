@@ -100,21 +100,130 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // ============================================
-    // LAZY LOADING FOR IMAGES
+    // SOCIAL SHARING
     // ============================================
-    const lazyImages = document.querySelectorAll('img[data-src]');
-    const imageObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const img = entry.target;
-                img.src = img.dataset.src;
-                img.removeAttribute('data-src');
-                imageObserver.unobserve(img);
-            }
-        });
-    });
+    function addShareButtons() {
+        if (!document.querySelector('.share-btn-container')) {
+            const container = document.createElement('div');
+            container.className = 'share-btn-container';
+            container.innerHTML = `
+                <button class="share-btn twitter" aria-label="Share on Twitter" onclick="window.open('https://twitter.com/intent/tweet?text=Check out PlanHub!&url='+encodeURIComponent(window.location.href), '_blank')">🐦</button>
+                <button class="share-btn facebook" aria-label="Share on Facebook" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(window.location.href), '_blank')">📘</button>
+                <button class="share-btn linkedin" aria-label="Share on LinkedIn" onclick="window.open('https://www.linkedin.com/sharing/share-offsite/?url='+encodeURIComponent(window.location.href), '_blank')">💼</button>
+            `;
+            document.body.appendChild(container);
 
-    lazyImages.forEach(img => imageObserver.observe(img));
+            // Add styles dynamically
+            const style = document.createElement('style');
+            style.textContent = `
+                .share-btn-container {
+                    position: fixed;
+                    left: 20px;
+                    bottom: 20px;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 10px;
+                    z-index: 90;
+                }
+                .share-btn {
+                    width: 40px;
+                    height: 40px;
+                    border-radius: 50%;
+                    border: none;
+                    background: var(--bg-card);
+                    box-shadow: var(--shadow-md);
+                    cursor: pointer;
+                    font-size: 1.2rem;
+                    transition: all 0.3s;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+                .share-btn:hover {
+                    transform: scale(1.1);
+                    box-shadow: var(--shadow-lg);
+                }
+            `;
+            document.head.appendChild(style);
+        }
+    }
+
+    // Initialize Share Buttons after a delay
+    setTimeout(addShareButtons, 3000);
+
+    // ============================================
+    // PROMOTIONAL POPUP (Exit Intent / Time)
+    // ============================================
+    function initPopup() {
+        const popupHTML = `
+            <div id="promo-popup" class="promo-popup-overlay">
+                <div class="promo-popup">
+                    <button class="close-popup" onclick="document.getElementById('promo-popup').style.display='none'">×</button>
+                    <div class="popup-content">
+                        <h3>🎁 50% Off Premium!</h3>
+                        <p>Unlock all psychological tests and unlimited projects today. Limited time offer.</p>
+                        <button class="btn btn-primary" onclick="App.switchToApp(); document.getElementById('settings-view').scrollIntoView();">Upgrade Now</button>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        // Append popup
+        if (!document.getElementById('promo-popup')) {
+            const div = document.createElement('div');
+            div.innerHTML = popupHTML;
+            document.body.appendChild(div.firstElementChild);
+
+            // Styles
+            const style = document.createElement('style');
+            style.textContent = `
+                .promo-popup-overlay {
+                    position: fixed;
+                    top: 0; left: 0; right: 0; bottom: 0;
+                    background: rgba(0,0,0,0.5);
+                    backdrop-filter: blur(4px);
+                    z-index: 2000;
+                    display: none;
+                    align-items: center;
+                    justify-content: center;
+                    animation: fadeIn 0.3s ease;
+                }
+                .promo-popup {
+                    background: var(--bg-card);
+                    padding: 2rem;
+                    border-radius: var(--radius-lg);
+                    max-width: 400px;
+                    text-align: center;
+                    position: relative;
+                    box-shadow: var(--shadow-xl);
+                    animation: scaleIn 0.3s ease;
+                }
+                .close-popup {
+                    position: absolute;
+                    top: 10px;
+                    right: 15px;
+                    border: none;
+                    background: none;
+                    font-size: 1.5rem;
+                    cursor: pointer;
+                    color: var(--text-secondary);
+                }
+            `;
+            document.head.appendChild(style);
+        }
+
+        // Trigger after 15 seconds
+        setTimeout(() => {
+            const popup = document.getElementById('promo-popup');
+            if (popup && !localStorage.getItem('popupDismissed')) {
+                popup.style.display = 'flex';
+                // Mark as shown so it doesn't annoy too much (session based)
+                // localStorage.setItem('popupDismissed', 'true'); // Commented out for demo purposes
+            }
+        }, 15000);
+    }
+
+    initPopup();
 
     // ============================================
     // ANIMATED COUNTERS (for stats)

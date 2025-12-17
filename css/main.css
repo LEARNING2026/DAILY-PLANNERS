@@ -1,18 +1,61 @@
 :root {
-    /* --- MODERN PALETTE --- */
+    /* --- MODERN PALETTE (Based on Modern Homepage) --- */
+    --primary-color: #6366f1;
+    --primary-dark: #4f46e5;
+    /* Added */
+    --secondary-color: #8b5cf6;
+    /* Added */
+    --accent-color: #ec4899;
+    /* Added */
+    --primary-gradient: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+    /* Adjusted to match secondary */
+
+    /* Backgrounds */
     --bg-body: #f8fafc;
+    /* Matches bg-light */
+    --bg-white: #ffffff;
+    /* Added */
     --bg-sidebar: rgba(255, 255, 255, 0.85);
-    /* Glass feel */
     --bg-card: #ffffff;
+    --bg-glass: rgba(255, 255, 255, 0.95);
+    /* Added for headers/nav */
 
     /* Text */
-    --text-primary: #0f172a;
-    --text-secondary: #64748b;
+    --text-primary: #1f2937;
+    /* Updated to match 2937 */
+    --text-secondary: #6b7280;
+    /* Updated */
     --text-mute: #94a3b8;
+    --text-light: #ffffff;
+    /* Added */
 
-    /* Brand Gradients */
-    --primary-color: #6366f1;
-    --primary-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+    /* UI Elements */
+    --border-color: #e2e8f0;
+    --sidebar-width: 280px;
+
+    /* Radius */
+    --radius-sm: 0.375rem;
+    --radius-md: 0.75rem;
+    /* Kept slightly larger for friendliness */
+    --radius-lg: 1rem;
+    --radius-xl: 1.5rem;
+    /* Added */
+
+    /* Spacing */
+    --spacing-xs: 0.5rem;
+    --spacing-sm: 1rem;
+    --spacing-md: 2rem;
+    --spacing-lg: 4rem;
+    --spacing-xl: 6rem;
+
+    /* Shadows & Effects */
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+    /* Added */
+    --card-hover-transform: translateY(-4px);
+    --glass-backdrop: blur(12px);
     --primary-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.3);
 
     /* Accents */
@@ -21,41 +64,31 @@
     --warning-color: #f59e0b;
     --info-color: #3b82f6;
 
-    /* UI Elements */
-    --border-color: #e2e8f0;
-    --sidebar-width: 280px;
-    --radius-lg: 1rem;
-    --radius-md: 0.75rem;
-    --radius-sm: 0.5rem;
-
-    /* Shadows & Effects */
-    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-    --card-hover-transform: translateY(-4px);
-    --glass-backdrop: blur(12px);
-
-    /* Priority Colors */
+    /* Priority & Pro */
     --priority-high: #fee2e2;
     --priority-high-text: #ef4444;
     --priority-medium: #ffedd5;
     --priority-medium-text: #f97316;
     --priority-low: #dcfce7;
     --priority-low-text: #22c55e;
-
-    /* PRO Feature */
     --pro-gradient: linear-gradient(45deg, #FFD700, #FDB931);
 }
 
 [data-theme="dark"] {
     --bg-body: #0f172a;
+    --bg-white: #1e293b;
+    /* Remap white to dark card in dark mode */
     --bg-sidebar: rgba(30, 41, 59, 0.75);
     --bg-card: #1e293b;
+    --bg-glass: rgba(30, 41, 59, 0.85);
+
     --text-primary: #f8fafc;
     --text-secondary: #cbd5e1;
     --text-mute: #64748b;
-    --border-color: #334155;
+    --text-light: #e2e8f0;
+    /* Soften pure white */
 
+    --border-color: #334155;
     --primary-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.5);
 
     --priority-high: #450a0a;
