@@ -401,46 +401,433 @@ const UI = {
     },
 
     /**
-     * Render Personality Tests Platform (Maintenance Mode)
+     * Render Progress View
+     * Shows real progress data calculated from completed tasks and lessons
+     */
+    renderProgress() {
+        const el = document.getElementById('progress-view');
+        if (!el) return;
+
+        // Get real progress data from Store
+        const progress = Store.getProgressData();
+
+        // Format last activity date
+        let lastActivityText = 'No activity yet';
+        if (progress.lastActivity) {
+            const date = new Date(progress.lastActivity);
+            const now = new Date();
+            const diffMs = now - date;
+            const diffMins = Math.floor(diffMs / 60000);
+            const diffHours = Math.floor(diffMs / 3600000);
+            const diffDays = Math.floor(diffMs / 86400000);
+
+            if (diffMins < 1) {
+                lastActivityText = 'Just now';
+            } else if (diffMins < 60) {
+                lastActivityText = `${diffMins} minute${diffMins > 1 ? 's' : ''} ago`;
+            } else if (diffHours < 24) {
+                lastActivityText = `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`;
+            } else if (diffDays === 1) {
+                lastActivityText = 'Yesterday';
+            } else if (diffDays < 7) {
+                lastActivityText = `${diffDays} days ago`;
+            } else {
+                lastActivityText = date.toLocaleDateString();
+            }
+        }
+
+        // Get feedback message based on progress
+        const getFeedbackMessage = (percentage) => {
+            if (percentage === 0) return 'Start learning to see your progress!';
+            if (percentage < 25) return 'Great start! Keep going! 🌱';
+            if (percentage < 50) return 'You\'re making good progress! 💪';
+            if (percentage < 75) return 'Excellent work! You\'re over halfway! 🎯';
+            if (percentage < 100) return 'Almost there! You\'re doing amazing! 🚀';
+            return 'Congratulations! You\'ve completed everything! 🎉';
+        };
+
+        // Render empty state if no progress
+        if (!progress.hasProgress) {
+            el.innerHTML = `
+                <div class="card" style="text-align: center; padding: 4rem 2rem;">
+                    <div style="font-size: 4rem; margin-bottom: 1.5rem;">📊</div>
+                    <h2 style="margin: 0 0 1rem 0;">No Progress Yet</h2>
+                    <p style="color: var(--text-secondary); margin: 0 0 2rem 0; max-width: 500px; margin-left: auto; margin-right: auto;">
+                        Start completing tasks and lessons to track your progress here.
+                        Your achievements will be displayed with detailed statistics and visualizations.
+                    </p>
+                    <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                        <button class="btn btn-primary" onclick="location.hash='#tasks'">
+                            View Tasks
+                        </button>
+                        <button class="btn" onclick="location.hash='#languages'">
+                            Start Learning
+                        </button>
+                    </div>
+                </div>
+            `;
+            return;
+        }
+
+        // Render progress dashboard with real data
+        el.innerHTML = `
+            <div class="progress-dashboard">
+                <!-- Header -->
+                <div style="margin-bottom: 2rem;">
+                    <h1 style="margin: 0 0 0.5rem 0;">📊 Your Progress</h1>
+                    <p style="margin: 0; color: var(--text-secondary);">Track your learning journey and achievements</p>
+                </div>
+
+                <!-- Overall Progress Card -->
+                <div class="card" style="margin-bottom: 2rem; background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1)); border: 2px solid var(--primary-color);">
+                    <h3 style="margin: 0 0 1rem 0; display: flex; align-items: center; gap: 0.5rem;">
+                        <span>🎯</span>
+                        <span>Overall Progress</span>
+                    </h3>
+                    
+                    <!-- Progress Bar -->
+                    <div class="progress-container" style="height: 40px; margin-bottom: 1rem; border-radius: 20px; overflow: hidden; background: var(--border-color);">
+                        <div class="progress-fill" style="width: ${progress.overall.percentage}%; height: 100%; background: var(--primary-gradient); display: flex; align-items: center; justify-content: center; font-weight: 700; color: white; font-size: 1.1rem; transition: width 0.5s ease;">
+                            ${progress.overall.percentage}%
+                        </div>
+                    </div>
+
+                    <!-- Stats -->
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin-bottom: 1rem;">
+                        <div style="text-align: center;">
+                            <div style="font-size: 2rem; font-weight: 700; color: var(--primary-color);">${progress.overall.completed}</div>
+                            <div style="font-size: 0.85rem; color: var(--text-secondary);">Completed</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="font-size: 2rem; font-weight: 700; color: var(--text-secondary);">${progress.overall.total - progress.overall.completed}</div>
+                            <div style="font-size: 0.85rem; color: var(--text-secondary);">Remaining</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="font-size: 2rem; font-weight: 700; color: var(--success-color);">${progress.streak}</div>
+                            <div style="font-size: 0.85rem; color: var(--text-secondary);">Day Streak</div>
+                        </div>
+                    </div>
+
+                    <!-- Feedback Message -->
+                    <div style="text-align: center; padding: 1rem; background: rgba(255, 255, 255, 0.5); border-radius: 0.5rem;">
+                        <strong>${getFeedbackMessage(progress.overall.percentage)}</strong>
+                    </div>
+                </div>
+
+                <!-- Detailed Stats Grid -->
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+                    <!-- Tasks Progress -->
+                    <div class="card">
+                        <h3 style="margin: 0 0 1rem 0; display: flex; align-items: center; gap: 0.5rem;">
+                            <span>✅</span>
+                            <span>Tasks</span>
+                        </h3>
+                        <div class="progress-container" style="margin-bottom: 1rem;">
+                            <div class="progress-fill" style="width: ${progress.tasks.percentage}%;"></div>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; font-size: 0.9rem;">
+                            <span style="color: var(--text-secondary);">Completed:</span>
+                            <strong>${progress.tasks.completed} / ${progress.tasks.total}</strong>
+                        </div>
+                        <div style="text-align: center; margin-top: 1rem; font-size: 1.5rem; font-weight: 700; color: var(--primary-color);">
+                            ${progress.tasks.percentage}%
+                        </div>
+                    </div>
+
+                    <!-- Lessons Progress -->
+                    <div class="card">
+                        <h3 style="margin: 0 0 1rem 0; display: flex; align-items: center; gap: 0.5rem;">
+                            <span>📚</span>
+                            <span>Lessons</span>
+                        </h3>
+                        <div class="progress-container" style="margin-bottom: 1rem;">
+                            <div class="progress-fill" style="width: ${progress.lessons.percentage}%;"></div>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; font-size: 0.9rem;">
+                            <span style="color: var(--text-secondary);">Completed:</span>
+                            <strong>${progress.lessons.completed} / ${progress.lessons.total}</strong>
+                        </div>
+                        <div style="text-align: center; margin-top: 1rem; font-size: 1.5rem; font-weight: 700; color: var(--primary-color);">
+                            ${progress.lessons.percentage}%
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Activity Info -->
+                <div class="card">
+                    <h3 style="margin: 0 0 1rem 0;">📅 Activity</h3>
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <div style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 0.25rem;">Last Activity</div>
+                            <div style="font-weight: 600;">${lastActivityText}</div>
+                        </div>
+                        <div style="text-align: right;">
+                            <div style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 0.25rem;">Current Streak</div>
+                            <div style="font-weight: 600; color: var(--success-color);">${progress.streak} ${progress.streak === 1 ? 'day' : 'days'} 🔥</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+    },
+
+    /**
+     * Render Settings Panel
+     * Displays user preferences and configuration options
+     */
+    renderSettings() {
+        const container = document.getElementById('settings-view');
+        if (!container) return;
+
+        const data = Store.getData();
+        const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+        const currentLang = LanguageManager.currentLang || 'en';
+
+        container.innerHTML = `
+            <div class="settings-container">
+                <!-- Header -->
+                <div style="margin-bottom: 2rem;">
+                    <h1 style="margin: 0 0 0.5rem 0; display: flex; align-items: center; gap: 0.5rem;">
+                        <span>⚙️</span>
+                        <span>${LanguageManager.get('settings')}</span>
+                    </h1>
+                    <p style="margin: 0; color: var(--text-secondary);">Customize your experience</p>
+                </div>
+
+                <!-- Settings Cards -->
+                <div style="display: grid; gap: 1.5rem;">
+                    
+                    <!-- Appearance Settings -->
+                    <div class="card">
+                        <h3 style="margin: 0 0 1rem 0; display: flex; align-items: center; gap: 0.5rem;">
+                            <span>🎨</span>
+                            <span>Appearance</span>
+                        </h3>
+                        
+                        <!-- Theme Toggle -->
+                        <div class="setting-item">
+                            <div>
+                                <div style="font-weight: 600; margin-bottom: 0.25rem;">Theme</div>
+                                <div style="font-size: 0.9rem; color: var(--text-secondary);">Choose your preferred color scheme</div>
+                            </div>
+                            <div class="theme-toggle-container">
+                                <button class="theme-option ${currentTheme === 'light' ? 'active' : ''}" 
+                                        onclick="UI.changeTheme('light')"
+                                        data-theme-toggle="light">
+                                    <span>☀️</span>
+                                    <span>Light</span>
+                                </button>
+                                <button class="theme-option ${currentTheme === 'dark' ? 'active' : ''}" 
+                                        onclick="UI.changeTheme('dark')"
+                                        data-theme-toggle="dark">
+                                    <span>🌙</span>
+                                    <span>Dark</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Language Settings -->
+                    <div class="card">
+                        <h3 style="margin: 0 0 1rem 0; display: flex; align-items: center; gap: 0.5rem;">
+                            <span>🌍</span>
+                            <span>Language</span>
+                        </h3>
+                        
+                        <div class="setting-item">
+                            <div>
+                                <div style="font-weight: 600; margin-bottom: 0.25rem;">Interface Language</div>
+                                <div style="font-size: 0.9rem; color: var(--text-secondary);">Select your preferred language</div>
+                            </div>
+                            <select class="setting-select" onchange="LanguageManager.setLanguage(this.value)">
+                                <option value="en" ${currentLang === 'en' ? 'selected' : ''}>🇬🇧 English</option>
+                                <option value="es" ${currentLang === 'es' ? 'selected' : ''}>🇪🇸 Español</option>
+                                <option value="fr" ${currentLang === 'fr' ? 'selected' : ''}>🇫🇷 Français</option>
+                                <option value="de" ${currentLang === 'de' ? 'selected' : ''}>🇩🇪 Deutsch</option>
+                                <option value="ar" ${currentLang === 'ar' ? 'selected' : ''}>🇸🇦 العربية</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Notifications Settings -->
+                    <div class="card">
+                        <h3 style="margin: 0 0 1rem 0; display: flex; align-items: center; gap: 0.5rem;">
+                            <span>🔔</span>
+                            <span>Notifications</span>
+                        </h3>
+                        
+                        <div class="setting-item">
+                            <div>
+                                <div style="font-weight: 600; margin-bottom: 0.25rem;">Task Reminders</div>
+                                <div style="font-size: 0.9rem; color: var(--text-secondary);">Get notified about upcoming tasks</div>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" ${data.settings?.notifications !== false ? 'checked' : ''} 
+                                       onchange="UI.toggleSetting('notifications', this.checked)">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="setting-item" style="margin-top: 1rem;">
+                            <div>
+                                <div style="font-weight: 600; margin-bottom: 0.25rem;">Sound Effects</div>
+                                <div style="font-size: 0.9rem; color: var(--text-secondary);">Play sounds for actions</div>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" ${data.settings?.sounds !== false ? 'checked' : ''} 
+                                       onchange="UI.toggleSetting('sounds', this.checked)">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Data Management -->
+                    <div class="card">
+                        <h3 style="margin: 0 0 1rem 0; display: flex; align-items: center; gap: 0.5rem;">
+                            <span>💾</span>
+                            <span>Data Management</span>
+                        </h3>
+                        
+                        <div style="display: grid; gap: 1rem;">
+                            <button class="btn" onclick="UI.exportData()" style="justify-content: center;">
+                                <span>📤</span>
+                                <span>Export Data</span>
+                            </button>
+                            <button class="btn" onclick="UI.importData()" style="justify-content: center;">
+                                <span>📥</span>
+                                <span>Import Data</span>
+                            </button>
+                            <button class="btn" onclick="UI.clearAllData()" 
+                                    style="justify-content: center; border-color: var(--danger-color); color: var(--danger-color);">
+                                <span>🗑️</span>
+                                <span>Clear All Data</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- About -->
+                    <div class="card">
+                        <h3 style="margin: 0 0 1rem 0; display: flex; align-items: center; gap: 0.5rem;">
+                            <span>ℹ️</span>
+                            <span>About</span>
+                        </h3>
+                        
+                        <div style="color: var(--text-secondary); line-height: 1.8;">
+                            <p style="margin: 0 0 0.5rem 0;"><strong>PlanHub</strong> - Your Ultimate Productivity Platform</p>
+                            <p style="margin: 0 0 0.5rem 0;">Version: 2.0.0</p>
+                            <p style="margin: 0;">Built with modern web technologies</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+    },
+
+    /**
+     * Change theme
+     * @param {string} theme - 'light' or 'dark'
+     */
+    changeTheme(theme) {
+        document.documentElement.setAttribute('data-theme', theme);
+        document.body.className = theme;
+
+        // Save to localStorage
+        const data = Store.getData();
+        data.settings = data.settings || {};
+        data.settings.theme = theme;
+        Store.saveData(data);
+
+        // Update active state
+        document.querySelectorAll('.theme-option').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        document.querySelector(`[data-theme-toggle="${theme}"]`)?.classList.add('active');
+
+        this.showToast(`Theme changed to ${theme}`, 'success');
+    },
+
+    /**
+     * Toggle a setting
+     * @param {string} setting - Setting name
+     * @param {boolean} value - Setting value
+     */
+    toggleSetting(setting, value) {
+        const data = Store.getData();
+        data.settings = data.settings || {};
+        data.settings[setting] = value;
+        Store.saveData(data);
+
+        this.showToast(`${setting} ${value ? 'enabled' : 'disabled'}`, 'success');
+    },
+
+    /**
+     * Export user data
+     */
+    exportData() {
+        const data = Store.getData();
+        const dataStr = JSON.stringify(data, null, 2);
+        const dataBlob = new Blob([dataStr], { type: 'application/json' });
+        const url = URL.createObjectURL(dataBlob);
+
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `planhub-backup-${new Date().toISOString().split('T')[0]}.json`;
+        link.click();
+
+        URL.revokeObjectURL(url);
+        this.showToast('Data exported successfully', 'success');
+    },
+
+    /**
+     * Import user data
+     */
+    importData() {
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = 'application/json';
+
+        input.onchange = (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                try {
+                    const data = JSON.parse(event.target.result);
+                    Store.saveData(data);
+                    this.showToast('Data imported successfully! Refreshing...', 'success');
+                    setTimeout(() => location.reload(), 1500);
+                } catch (error) {
+                    this.showToast('Invalid data file', 'error');
+                }
+            };
+            reader.readAsText(file);
+        };
+
+        input.click();
+    },
+
+    /**
+     * Clear all data
+     */
+    clearAllData() {
+        if (confirm('Are you sure you want to clear all data? This cannot be undone!')) {
+            localStorage.clear();
+            this.showToast('All data cleared! Refreshing...', 'success');
+            setTimeout(() => location.reload(), 1500);
+        }
+    },
+
+    /**
+     * Render Psychological Tests Platform
+     * Displays the full tests dashboard with all features
      */
     renderTests() {
         const container = document.getElementById('tests-view');
         if (!container) return;
 
-        container.innerHTML = `
-            <div class="maintenance-overlay">
-                <div class="maintenance-content">
-                    <div class="maintenance-big-icon">🛠</div>
-                    <h1 class="maintenance-title">
-                        Personality Tests
-                        <span class="pro-badge" style="margin-left:1rem;">PRO</span>
-                    </h1>
-                    <p class="maintenance-description">
-                        This feature is currently under maintenance. We're preparing comprehensive psychological assessments!
-                    </p>
-                    <div class="maintenance-badge">
-                        <span class="maintenance-icon">🛠</span>
-                        <span>Under Maintenance</span>
-                    </div>
-
-                    <div class="feature-description">
-                        <h3>🧠 What's Coming</h3>
-                        <ul>
-                            <li>20-question psychological self-assessment tests</li>
-                            <li>Multiple test types (personality, intelligence, emotional)</li>
-                            <li>Automatic result calculation and analysis</li>
-                            <li>Detailed personality insights and recommendations</li>
-                            <li>Test history tracking and comparison</li>
-                            <li>PDF report generation and export</li>
-                        </ul>
-                    </div>
-
-                    <button class="btn" style="margin-top:2rem;" onclick="location.hash='#home'">
-                        ← Back to Home
-                    </button>
-                </div>
-            </div>
-        `;
+        // Render the complete tests dashboard from TestsModule
+        container.innerHTML = TestsModule.renderDashboard();
     }
 };
 window.UI = UI;

@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Homepage - Professional Design</title>
+    <link rel="stylesheet" href="modern-homepage.css">
+</head>
+
+<body>
+    <!-- Animated Background -->
+    <div class="animated-background"></div>
+
+    <!-- Header Section -->
+    <header class="header">
+        <div class="container">
+            <!-- Logo -->
+            <div class="logo">
+                <svg width="40" height="40" viewBox="0 0 40 40">
+                    <circle cx="20" cy="20" r="18" fill="url(#gradient1)" />
+                    <defs>
+                        <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#6366f1;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#8b5cf6;stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                </svg>
+                <span class="logo-text">YourBrand</span>
+            </div>
+
+            <!-- Navigation Menu -->
+            <nav class="nav-menu">
+                <a href="#home" class="nav-link active">Home</a>
+                <a href="#features" class="nav-link">Features</a>
+                <a href="#services" class="nav-link">Services</a>
+                <a href="#pricing" class="nav-link">Pricing</a>
+            </nav>
+
+            <!-- CTA Buttons -->
+            <div class="header-cta">
+                <button class="btn btn-secondary">Sign In</button>
+                <button class="btn btn-primary">Get Started</button>
+            </div>
+
+            <!-- Mobile Menu Toggle -->
+            <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1 class="hero-title">
+                <span class="gradient-text">Transform Your Business</span>
+                <br>With Modern Solutions
+            </h1>
+            <p class="hero-subtitle">
+                Empower your team with cutting-edge tools and innovative strategies
+                designed to accelerate growth and maximize efficiency.
+            </p>
+            <div class="hero-buttons">
+                <button class="btn btn-large btn-primary">Start Free Trial</button>
+                <button class="btn btn-large btn-outline">Watch Demo</button>
+            </div>
+            <!-- Scroll Indicator -->
+            <div class="scroll-indicator">
+                <div class="mouse">
+                    <div class="wheel"></div>
+                </div>
+                <p>Scroll to explore</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Powerful Features</h2>
+                <p class="section-subtitle">Everything you need to succeed in one platform</p>
+            </div>
+
+            <div class="features-grid">
+                <!-- Feature Card 1 -->
+                <div class="feature-card">
+                    <div class="feature-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Lightning Fast</h3>
+                    <p class="feature-description">
+                        Experience blazing-fast performance with optimized code and modern architecture.
+                    </p>
+                </div>
+
+                <!-- Feature Card 2 -->
+                <div class="feature-card">
+                    <div class="feature-icon" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Secure & Private</h3>
+                    <p class="feature-description">
+                        Enterprise-grade security with end-to-end encryption to protect your data.
+                    </p>
+                </div>
+
+                <!-- Feature Card 3 -->
+                <div class="feature-card">
+                    <div class="feature-icon" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Real-time Analytics</h3>
+                    <p class="feature-description">
+                        Track performance with detailed insights and actionable analytics dashboards.
+                    </p>
+                </div>
+
+                <!-- Feature Card 4 -->
+                <div class="feature-card">
+                    <div class="feature-icon" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                            <circle cx="9" cy="7" r="4" />
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Team Collaboration</h3>
+                    <p class="feature-description">
+                        Work together seamlessly with built-in collaboration tools and workflows.
+                    </p>
+                </div>
+
+                <!-- Feature Card 5 -->
+                <div class="feature-card">
+                    <div class="feature-icon" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                            <circle cx="12" cy="12" r="10" />
+                            <polyline points="12 6 12 12 16 14" />
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">24/7 Support</h3>
+                    <p class="feature-description">
+                        Get help whenever you need it with our dedicated support team available around the clock.
+                    </p>
+                </div>
+
+                <!-- Feature Card 6 -->
+                <div class="feature-card">
+                    <div class="feature-icon" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Affordable Pricing</h3>
+                    <p class="feature-description">
+                        Flexible plans that scale with your business, from startups to enterprises.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services" id="services">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Our Services</h2>
+                <p class="section-subtitle">Comprehensive solutions tailored to your needs</p>
+            </div>
+
+            <div class="services-grid">
+                <!-- Service 1 -->
+                <div class="service-card">
+                    <div class="service-image" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                        <div class="service-overlay">
+                            <h3>Web Development</h3>
+                        </div>
+                    </div>
+                    <div class="service-content">
+                        <h4>Custom Web Solutions</h4>
+                        <p>Build responsive, high-performance websites with modern technologies and best practices.</p>
+                        <a href="#" class="service-link">Learn More →</a>
+                    </div>
+                </div>
+
+                <!-- Service 2 -->
+                <div class="service-card">
+                    <div class="service-image" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                        <div class="service-overlay">
+                            <h3>Mobile Apps</h3>
+                        </div>
+                    </div>
+                    <div class="service-content">
+                        <h4>Native & Cross-Platform</h4>
+                        <p>Create stunning mobile experiences for iOS and Android with seamless performance.</p>
+                        <a href="#" class="service-link">Learn More →</a>
+                    </div>
+                </div>
+
+                <!-- Service 3 -->
+                <div class="service-card">
+                    <div class="service-image" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                        <div class="service-overlay">
+                            <h3>Cloud Solutions</h3>
+                        </div>
+                    </div>
+                    <div class="service-content">
+                        <h4>Scalable Infrastructure</h4>
+                        <p>Deploy and manage applications with enterprise-grade cloud infrastructure.</p>
+                        <a href="#" class="service-link">Learn More →</a>
+                    </div>
+                </div>
+
+                <!-- Service 4 -->
+                <div class="service-card">
+                    <div class="service-image" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+                        <div class="service-overlay">
+                            <h3>AI & Machine Learning</h3>
+                        </div>
+                    </div>
+                    <div class="service-content">
+                        <h4>Intelligent Automation</h4>
+                        <p>Leverage AI and ML to automate processes and gain predictive insights.</p>
+                        <a href="#" class="service-link">Learn More →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 YourBrand. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="modern-homepage.js"></script>
+</body>
+
+</html>

@@ -11,15 +11,19 @@ const handlers = {
             UI.showToast(`${LanguageManager.get('welcomeBack')}, ${res.user.name}!`, 'success');
             updateSideProfile(res.user);
             location.hash = '#home';
+            UI.showToast(res.message, 'success');
+            location.hash = '#home';
+            UI.renderHome(); // Re-render home to show dashboard
         } else {
             UI.showToast(res.message, 'error');
         }
     },
 
-    register() {
-        const name = document.getElementById('reg-name').value;
-        const email = document.getElementById('reg-email').value;
-        const pass = document.getElementById('reg-pass').value;
+    register(e) {
+        e.preventDefault();
+        const name = document.getElementById('reg-name')?.value || document.getElementById('reg-name-modern')?.value;
+        const email = document.getElementById('reg-email')?.value || document.getElementById('reg-email-modern')?.value;
+        const pass = document.getElementById('reg-pass')?.value || document.getElementById('reg-password-modern')?.value;
         if (!name || !email || !pass) return UI.showToast(LanguageManager.get('fillAllFields'), 'error');
 
         const res = Auth.register(name, email, pass); // Used Auth module
@@ -40,12 +44,18 @@ const handlers = {
 
     completeLesson(lessonId) {
         Store.updateUserProgress(lessonId, true);
+        Store.updateLastActivity(); // Track activity
         UI.showToast(LanguageManager.get('lessonCompleted'), 'success');
     },
 
     toggleTask(id, el) {
         const completed = el.checked;
         Store.updateTaskStatus(id, completed);
+
+        // Track activity when completing (not uncompleting)
+        if (completed) {
+            Store.updateLastActivity();
+        }
 
         // Visuals
         const li = el.closest('.task-item');
@@ -184,6 +194,7 @@ function handleHash() {
     if (root === 'tasks') UI.renderTaskList();
     if (root === 'books') UI.renderBooks();
     if (root === 'progress') UI.renderProgress();
+    if (root === 'settings') UI.renderSettings(); // Settings handler
 }
 
 function showView(viewName) {

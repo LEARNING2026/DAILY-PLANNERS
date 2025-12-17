@@ -663,3 +663,928 @@
         margin-bottom: 0.5rem;
     }
 }
+
+/* ============================================
+   MODERN AUTH UI (HOMEPAGE)
+   ============================================ */
+
+/* Auth Center Container */
+.auth-center-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 60vh;
+    padding: 2rem 1rem;
+}
+
+/* Auth Card with Glassmorphism */
+.auth-card-modern {
+    background: var(--bg-card);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--border-color);
+    max-width: 480px;
+    width: 100%;
+    overflow: hidden;
+    animation: authCardFadeIn 0.5s ease;
+}
+
+[data-theme="light"] .auth-card-modern {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+}
+
+@keyframes authCardFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Auth Header */
+.auth-header-modern {
+    text-align: center;
+    padding: 2.5rem 2rem 1.5rem;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+}
+
+.auth-title-modern {
+    margin: 0 0 0.5rem 0;
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.auth-subtitle-modern {
+    margin: 0;
+    font-size: 0.95rem;
+    opacity: 0.95;
+}
+
+/* Tab Switcher */
+.auth-tabs {
+    display: flex;
+    border-bottom: 2px solid var(--border-color);
+    background: var(--bg-body);
+}
+
+.auth-tab {
+    flex: 1;
+    padding: 1rem;
+    background: transparent;
+    border: none;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.auth-tab:hover {
+    background: var(--bg-card);
+    color: var(--text-primary);
+}
+
+.auth-tab.active {
+    color: var(--primary-color);
+}
+
+.auth-tab.active::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--primary-gradient);
+    animation: tabSlide 0.3s ease;
+}
+
+@keyframes tabSlide {
+    from {
+        transform: scaleX(0);
+    }
+    to {
+        transform: scaleX(1);
+    }
+}
+
+/* Tab Content */
+.auth-tab-content {
+    display: none;
+    padding: 2rem;
+    animation: fadeIn 0.3s ease;
+}
+
+.auth-tab-content.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Modern Form */
+.auth-form-modern {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.form-group-modern {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.form-group-modern label {
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.form-icon {
+    font-size: 1.1rem;
+}
+
+.form-group-modern input {
+    padding: 0.875rem 1rem;
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-md);
+    background: var(--bg-body);
+    font-family: inherit;
+    font-size: 1rem;
+    color: var(--text-primary);
+    transition: all 0.3s ease;
+}
+
+.form-group-modern input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+    transform: translateY(-2px);
+}
+
+.form-group-modern input::placeholder {
+    color: var(--text-secondary);
+    opacity: 0.6;
+}
+
+/* Modern Auth Button */
+.btn-auth-modern {
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+}
+
+.btn-primary-modern {
+    background: var(--primary-gradient);
+    color: white;
+    box-shadow: 0 10px 25px rgba(99, 102, 241, 0.3);
+}
+
+.btn-primary-modern:hover {
+    filter: brightness(1.1);
+    transform: translateY(-2px);
+    box-shadow: 0 15px 35px rgba(99, 102, 241, 0.4);
+}
+
+.btn-primary-modern:active {
+    transform: translateY(0);
+}
+
+.btn-icon {
+    font-size: 1.2rem;
+    transition: transform 0.3s ease;
+}
+
+.btn-auth-modern:hover .btn-icon {
+    transform: translateX(4px);
+}
+
+/* Auth Footer */
+.auth-footer-modern {
+    text-align: center;
+    padding: 1.5rem 2rem;
+    background: var(--bg-body);
+    border-top: 1px solid var(--border-color);
+}
+
+.auth-footer-modern p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .auth-card-modern {
+        border-radius: 0;
+        box-shadow: none;
+    }
+
+    .auth-header-modern {
+        padding: 2rem 1.5rem 1rem;
+    }
+
+    .auth-title-modern {
+        font-size: 1.75rem;
+    }
+
+    .auth-tab-content {
+        padding: 1.5rem;
+    }
+
+    .form-group-modern input {
+        font-size: 16px; /* Prevents zoom on iOS */
+    }
+}
+
+/* ============================================
+   PROJECT MANAGEMENT FEATURES
+   ============================================ */
+
+/* Features Grid */
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+}
+
+/* Feature Card */
+.feature-card {
+    background: var(--bg-card);
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.feature-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--primary-color);
+}
+
+.feature-card.unlocked:hover {
+    border-color: var(--primary-color);
+    background: linear-gradient(135deg, var(--bg-card) 0%, rgba(99, 102, 241, 0.05) 100%);
+}
+
+/* Locked Feature Card */
+.feature-card.locked {
+    opacity: 0.75;
+    cursor: pointer;
+}
+
+.feature-card.locked:hover {
+    border-color: var(--warning-color);
+    background: linear-gradient(135deg, var(--bg-card) 0%, rgba(251, 191, 36, 0.05) 100%);
+}
+
+/* Feature Icon */
+.feature-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    display: block;
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
+}
+
+.feature-card.locked .feature-icon {
+    opacity: 0.6;
+    filter: grayscale(30%) drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
+}
+
+/* Feature Content */
+.feature-content {
+    position: relative;
+    z-index: 1;
+}
+
+.feature-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin: 0 0 0.75rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.feature-description {
+    color: var(--text-secondary);
+    margin: 0;
+    line-height: 1.6;
+    font-size: 0.95rem;
+}
+
+/* Feature Lock Overlay */
+.feature-lock-overlay {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, rgba(251, 191, 36, 0.2), rgba(245, 158, 11, 0.2));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    animation: lock-pulse 2s ease-in-out infinite;
+}
+
+@keyframes lock-pulse {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 0.8;
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: 1;
+    }
+}
+
+/* Projects Dashboard */
+.projects-dashboard {
+    animation: fadeInUp 0.5s ease;
+}
+
+/* Projects List */
+.projects-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.5rem;
+}
+
+/* Project Card */
+.project-card {
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.project-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--primary-color);
+}
+
+/* Project Detail View */
+.project-detail-view {
+    animation: fadeIn 0.4s ease;
+}
+
+.project-tasks {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+/* Comments List */
+.comments-list {
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 0;
+}
+
+.comments-list:empty {
+    padding: 1rem;
+}
+
+/* Responsive - Projects */
+@media (max-width: 768px) {
+    .features-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .projects-list {
+        grid-template-columns: 1fr;
+    }
+
+    .feature-card {
+        padding: 1.5rem;
+    }
+
+    .feature-icon {
+        font-size: 2.5rem;
+    }
+}
+
+/* PRO Badge Enhancement */
+.pro-badge {
+    animation: badge-shine 3s ease-in-out infinite;
+}
+
+@keyframes badge-shine {
+    0%, 100% {
+        box-shadow: 0 2px 5px rgba(255, 215, 0, 0.4);
+    }
+    50% {
+        box-shadow: 0 4px 15px rgba(255, 215, 0, 0.6);
+    }
+}
+
+/* ============================================
+   PSYCHOLOGICAL TESTS PLATFORM
+   ============================================ */
+
+/* Tests Dashboard */
+.tests-dashboard {
+    animation: fadeInUp 0.5s ease;
+}
+
+/* Test Categories Grid */
+.test-categories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+}
+
+.test-category-card {
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.test-category-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+}
+
+/* Test Interface */
+.test-interface {
+    max-width: 900px;
+    margin: 0 auto;
+    animation: fadeIn 0.4s ease;
+}
+
+/* Answer Options */
+.answer-options {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.answer-option {
+    display: flex;
+    align-items: center;
+    padding: 1.5rem;
+    background: var(--bg-card);
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.answer-option:hover {
+    border-color: var(--primary-color);
+    background: linear-gradient(135deg, var(--bg-card) 0%, rgba(99, 102, 241, 0.05) 100%);
+    transform: translateX(4px);
+}
+
+.answer-option.selected {
+    border-color: var(--primary-color);
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1));
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+}
+
+.answer-emoji {
+    font-size: 2rem;
+    margin-right: 1rem;
+    flex-shrink: 0;
+}
+
+.answer-text {
+    flex: 1;
+    font-weight: 500;
+    font-size: 1.1rem;
+}
+
+.answer-radio {
+    width: 24px;
+    height: 24px;
+    border: 2px solid var(--border-color);
+    border-radius: 50%;
+    flex-shrink: 0;
+    position: relative;
+    transition: all 0.2s ease;
+}
+
+.answer-radio.checked {
+    border-color: var(--primary-color);
+    background: var(--primary-color);
+}
+
+.answer-radio.checked::after {
+    content: '?';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/* Test Results */
+.test-results {
+    animation: fadeInUp 0.5s ease;
+}
+
+/* Test History */
+.test-history-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+/* PRO Feature Notice */
+.pro-feature-notice {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    background: rgba(251, 191, 36, 0.1);
+    border: 1px solid rgba(251, 191, 36, 0.3);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+}
+
+/* Psychology Theme Colors */
+.psychology-primary {
+    color: #6366f1;
+}
+
+.psychology-success {
+    color: #10b981;
+}
+
+.psychology-warning {
+    color: #f59e0b;
+}
+
+/* Responsive - Tests */
+@media (max-width: 768px) {
+    .test-categories-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .answer-option {
+        padding: 1rem;
+    }
+
+    .answer-emoji {
+        font-size: 1.5rem;
+    }
+
+    .answer-text {
+        font-size: 1rem;
+    }
+}
+
+/* Calming, Professional Color Scheme */
+:root {
+    --psychology-blue: #6366f1;
+    --psychology-green: #10b981;
+    --psychology-purple: #8b5cf6;
+    --psychology-teal: #14b8a6;
+}
+
+/* ============================================
+   SETTINGS PANEL STYLES
+   ============================================ */
+
+/* Settings Container */
+.settings-container {
+    max-width: 800px;
+    margin: 0 auto;
+    animation: fadeInUp 0.5s ease;
+}
+
+/* Setting Item */
+.setting-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+}
+
+/* Theme Toggle Container */
+.theme-toggle-container {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.theme-option {
+    padding: 0.75rem 1.5rem;
+    border: 2px solid var(--border-color);
+    background: var(--bg-card);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 500;
+}
+
+.theme-option:hover {
+    border-color: var(--primary-color);
+    background: rgba(99, 102, 241, 0.05);
+}
+
+.theme-option.active {
+    border-color: var(--primary-color);
+    background: var(--primary-gradient);
+    color: white;
+}
+
+/* Setting Select */
+.setting-select {
+    padding: 0.75rem 1rem;
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-md);
+    background: var(--bg-card);
+    color: var(--text-primary);
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-width: 200px;
+}
+
+.setting-select:hover {
+    border-color: var(--primary-color);
+}
+
+.setting-select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+/* Toggle Switch */
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 52px;
+    height: 28px;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--border-color);
+    transition: 0.3s;
+    border-radius: 28px;
+}
+
+.toggle-slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: 0.3s;
+    border-radius: 50%;
+}
+
+.toggle-switch input:checked + .toggle-slider {
+    background: var(--primary-gradient);
+}
+
+.toggle-switch input:checked + .toggle-slider:before {
+    transform: translateX(24px);
+}
+
+/* Responsive Settings */
+@media (max-width: 768px) {
+    .setting-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    
+    .theme-toggle-container {
+        width: 100%;
+    }
+    
+    .theme-option {
+        flex: 1;
+        justify-content: center;
+    }
+    
+    .setting-select {
+        width: 100%;
+    }
+}
+
+/* ============================================
+   ARABIC BOOKS LIBRARY STYLES
+   ============================================ */
+
+/* Books Grid */
+.books-grid,
+#books-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2rem;
+    padding: 2rem 0;
+}
+
+/* Book Card */
+.book-card {
+    background: var(--bg-card);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.book-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-xl);
+}
+
+/* Book Cover */
+.book-cover {
+    position: relative;
+    width: 100%;
+    height: 400px;
+    overflow: hidden;
+}
+
+.book-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.book-card:hover .book-cover img {
+    transform: scale(1.05);
+}
+
+/* Book Overlay */
+.book-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.book-card:hover .book-overlay {
+    opacity: 1;
+}
+
+/* Book Info */
+.book-info {
+    padding: 1.5rem;
+}
+
+.book-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin: 0 0 0.5rem 0;
+    color: var(--text-primary);
+    line-height: 1.4;
+    font-family: 'Tajawal', 'Arial', sans-serif;
+}
+
+.book-author {
+    font-size: 0.95rem;
+    margin: 0 0 1rem 0;
+    color: var(--text-secondary);
+    font-family: 'Tajawal', 'Arial', sans-serif;
+}
+
+.book-description {
+    font-size: 0.9rem;
+    line-height: 1.7;
+    color: var(--text-secondary);
+    margin: 0 0 1rem 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    font-family: 'Tajawal', 'Arial', sans-serif;
+}
+
+/* Book Meta */
+.book-meta {
+    display: flex;
+    gap: 1rem;
+    font-size: 0.85rem;
+    color: var(--text-mute);
+}
+
+/* Book Details Modal */
+.book-modal .book-details {
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    gap: 2rem;
+}
+
+.book-details-cover {
+    border-radius: var(--radius-md);
+    overflow: hidden;
+}
+
+.book-details-cover img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.book-details-info {
+    font-family: 'Tajawal', 'Arial', sans-serif;
+}
+
+/* Loading Spinner */
+.loading-spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid var(--border-color);
+    border-top-color: var(--primary-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Responsive Books */
+@media (max-width: 768px) {
+    .books-grid,
+    #books-grid {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 1.5rem;
+    }
+    
+    .book-cover {
+        height: 300px;
+    }
+    
+    .book-modal .book-details {
+        grid-template-columns: 1fr;
+    }
+    
+    .book-details-cover {
+        max-width: 250px;
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .books-grid,
+    #books-grid {
+        grid-template-columns: 1fr;
+    }
+}
