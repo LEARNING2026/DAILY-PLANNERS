@@ -159,7 +159,9 @@
     .sidebar {
         transform: translateX(-100%);
         width: 100%;
-        background: var(--bg-card);
+        background: #ffffff !important;
+        /* خلفية بيضاء ثابتة */
+        z-index: 1000;
     }
 
     .sidebar.open {
