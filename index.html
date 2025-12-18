@@ -3,7 +3,8 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
     <title>PlanHub - Ultimate Productivity & Learning Platform</title>
     <meta name="description"
         content="Boost your productivity with PlanHub. Manage tasks, learn languages, take psychological tests, and track your progress in one modern platform.">
@@ -14,12 +15,12 @@
     <meta property="og:type" content="website">
     <meta name="theme-color" content="#6366f1">
 
-    <!-- Fonts -->
+    <!-- Fonts - Optimized for Performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600&family=Tajawal:wght@400;500;700&display=swap"
-        rel="stylesheet">
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Inter:wght@400;600&family=Tajawal:wght@400;700&display=swap"
+        rel="stylesheet" media="print" onload="this.media='all'">
 
     <!-- CSS -->
     <link rel="stylesheet" href="css/main.css">
@@ -28,18 +29,19 @@
     <link rel="stylesheet" href="css/landing.css"> <!-- New Landing Styles -->
     <link rel="stylesheet" href="css/rtl.css">
     <link rel="stylesheet" href="css/performance.css">
+    <link rel="stylesheet" href="css/mobile-fixes.css"> <!-- Mobile Optimizations -->
 
     <!-- AOS Animation CSS (Lightweight version typically) or custom -->
     <!-- We will use custom CSS animations defined in main.css -->
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-16TLY2HXWQ"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-16TLY2HXWQ"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
 
-  gtag('config', 'G-16TLY2HXWQ');
-</script>
+        gtag('config', 'G-16TLY2HXWQ');
+    </script>
 </head>
 
 <body class="light">
@@ -66,8 +68,8 @@
                     <a href="#reviews" class="nav-link">Reviews</a>
                 </nav>
                 <div class="header-cta">
-                    <button class="btn btn-secondary" onclick="App.switchToApp()">Log In</button>
-                    <button class="btn btn-primary" onclick="App.switchToApp()">Get Started</button>
+                    <button class="btn btn-secondary">Log In</button>
+                    <button class="btn btn-primary">Get Started</button>
                 </div>
             </div>
         </header>
@@ -81,10 +83,8 @@
                     Simple, beautiful, and powerful.
                 </p>
                 <div class="hero-btns">
-                    <button class="btn btn-primary btn-large" onclick="App.switchToApp()">Launch App 🚀</button>
-                    <button class="btn btn-secondary btn-large"
-                        onclick="document.getElementById('features').scrollIntoView({behavior: 'smooth'})">Learn
-                        More</button>
+                    <button class="btn btn-primary btn-large">Launch App 🚀</button>
+                    <button class="btn btn-secondary btn-large">Learn More</button>
                 </div>
             </div>
         </section>
@@ -292,7 +292,7 @@
                     <span>⚙️</span> <span data-i18n="settings">Settings</span>
                 </a>
                 <div style="margin-top:auto; padding-top:1rem; border-top:1px solid var(--border-color);">
-                    <a href="#" class="nav-link" onclick="App.switchToLanding()">
+                    <a href="#" class="nav-link exit-app-btn">
                         <span>🔙</span> <span>Exit App</span>
                     </a>
                 </div>
@@ -310,8 +310,7 @@
         <main class="main-content">
             <!-- Header -->
             <header class="page-header">
-                <button class="mobile-toggle"
-                    onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+                <button class="mobile-toggle">☰</button>
                 <div class="page-title" id="page-title">Dashboard</div>
                 <div class="header-actions" style="display:flex; gap:1rem; align-items:center;">
                     <select id="lang-selector" class="input-field" style="padding:0.5rem;"
@@ -411,7 +410,9 @@
     <!-- Notification Toast Container -->
     <div id="notification-container" class="notification-container"></div>
 
-    <!-- Scripts -->
+    <!-- Scripts - Optimized Loading Order -->
+    <script src="js/mobile-handler.js" defer></script>
+    <script src="js/performance.js" defer></script>
     <script src="js/utils.js" defer></script>
     <script src="js/i18n.js" defer></script>
     <script src="js/auth.js" defer></script>
@@ -422,7 +423,6 @@
     <script src="js/ui.js" defer></script>
     <script src="js/app.js" defer></script>
     <script src="js/modern-enhancements.js" async></script>
-    <script src="js/performance.js" defer></script>
 
     <script>
         // Simple Interaction Logic for Transitions
