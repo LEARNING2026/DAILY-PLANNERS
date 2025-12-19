@@ -42,6 +42,9 @@
 
         gtag('config', 'G-16TLY2HXWQ');
     </script>
+
+    <!-- SweetAlert2 Library -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body class="light">
@@ -68,8 +71,8 @@
                     <a href="#reviews" class="nav-link">Reviews</a>
                 </nav>
                 <div class="header-cta">
-                    <button class="btn btn-secondary">Log In</button>
-                    <button class="btn btn-primary">Get Started</button>
+                    <button class="btn btn-secondary" onclick="showLoginModal()">Log In</button>
+                    <button class="btn btn-primary" onclick="scrollToTasks()">Get Started</button>
                 </div>
             </div>
         </header>
@@ -83,8 +86,10 @@
                     Simple, beautiful, and powerful.
                 </p>
                 <div class="hero-btns">
-                    <button class="btn btn-primary btn-large">Launch App 🚀</button>
-                    <button class="btn btn-secondary btn-large">Learn More</button>
+                    <button class="btn btn-primary btn-large" onclick="scrollToTasks()">Start Learning 🚀</button>
+                    <button class="btn btn-secondary btn-large"
+                        onclick="document.getElementById('features').scrollIntoView({ behavior: 'smooth' })">Learn
+                        More</button>
                 </div>
             </div>
         </section>
@@ -438,6 +443,89 @@
             document.getElementById('app-container').style.display = 'none';
             document.getElementById('landing-view').style.display = 'block';
         };
+
+        // Login Modal Function using SweetAlert2
+        function showLoginModal() {
+            Swal.fire({
+                title: '<strong>🔐 تسجيل الدخول</strong>',
+                html: `
+                    <div style="text-align: right; direction: rtl;">
+                        <div style="margin-bottom: 1rem;">
+                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #334155;">اسم المستخدم</label>
+                            <input type="text" id="swal-username" class="swal2-input" placeholder="أدخل اسم المستخدم" style="width: 100%; margin: 0;">
+                        </div>
+                        <div style="margin-bottom: 1rem;">
+                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #334155;">كلمة المرور</label>
+                            <input type="password" id="swal-password" class="swal2-input" placeholder="أدخل كلمة المرور" style="width: 100%; margin: 0;">
+                        </div>
+                    </div>
+                `,
+                showCancelButton: true,
+                confirmButtonText: 'دخول',
+                cancelButtonText: 'إلغاء',
+                confirmButtonColor: '#6366f1',
+                cancelButtonColor: '#64748b',
+                focusConfirm: false,
+                preConfirm: () => {
+                    const username = document.getElementById('swal-username').value;
+                    const password = document.getElementById('swal-password').value;
+
+                    if (!username || !password) {
+                        Swal.showValidationMessage('الرجاء إدخال اسم المستخدم وكلمة المرور');
+                        return false;
+                    }
+
+                    return { username: username, password: password };
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Show welcome message
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'مرحباً بك!',
+                        text: `أهلاً ${result.value.username}، تم تسجيل الدخول بنجاح!`,
+                        confirmButtonText: 'حسناً',
+                        confirmButtonColor: '#6366f1',
+                        timer: 3000,
+                        timerProgressBar: true
+                    });
+                }
+            });
+        }
+
+        // Scroll to Tasks Section Function
+        function scrollToTasks() {
+            // First, check if we're on landing page or app view
+            const landingView = document.getElementById('landing-view');
+            const appContainer = document.getElementById('app-container');
+
+            if (landingView && landingView.style.display !== 'none') {
+                // We're on landing page, scroll to features or contact section
+                const featuresSection = document.getElementById('features');
+                if (featuresSection) {
+                    featuresSection.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            } else if (appContainer && appContainer.style.display !== 'none') {
+                // We're in the app, navigate to tasks section
+                location.hash = '#tasks';
+                const tasksView = document.getElementById('tasks-view');
+                if (tasksView) {
+                    tasksView.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            } else {
+                // Default: switch to app and go to tasks
+                window.App.switchToApp();
+                setTimeout(() => {
+                    location.hash = '#tasks';
+                }, 300);
+            }
+        }
 
         // If user is logged in, maybe auto-switch? (Logic can be added to auth.js)
     </script>

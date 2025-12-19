@@ -1,0 +1,226 @@
+/* ============================================
+   SECTION MODAL - نافذة وصف الأقسام
+   ============================================ */
+
+/* Modal Overlay */
+.section-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.section-modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Modal Container */
+.section-modal {
+    background: #ffffff;
+    border-radius: 1rem;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    transform: scale(0.7);
+    opacity: 0;
+    transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55),
+        opacity 0.3s ease;
+    overflow: hidden;
+}
+
+.section-modal-overlay.active .section-modal {
+    transform: scale(1);
+    opacity: 1;
+}
+
+/* Modal Header */
+.section-modal-header {
+    background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+    padding: 2rem;
+    text-align: center;
+    position: relative;
+}
+
+.section-modal-icon {
+    font-size: 3rem;
+    margin-bottom: 0.5rem;
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
+}
+
+.section-modal-title {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: #ffffff;
+    margin: 0;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.section-modal-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: #ffffff;
+    font-size: 1.5rem;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.section-modal-close:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: rotate(90deg);
+}
+
+/* Modal Body */
+.section-modal-body {
+    padding: 2rem;
+}
+
+.section-modal-description {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #0f172a;
+    margin: 0 0 1.5rem 0;
+    text-align: center;
+}
+
+.section-modal-badge {
+    display: inline-block;
+    background: linear-gradient(45deg, #FFD700, #FDB931);
+    color: #4b3600;
+    padding: 0.4rem 1rem;
+    border-radius: 2rem;
+    font-size: 0.85rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    box-shadow: 0 4px 10px rgba(255, 215, 0, 0.3);
+}
+
+/* Modal Footer */
+.section-modal-footer {
+    padding: 0 2rem 2rem 2rem;
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.section-modal-btn {
+    padding: 0.875rem 2rem;
+    border-radius: 0.75rem;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.section-modal-btn-primary {
+    background: linear-gradient(135deg, #FFD700 0%, #FDB931 100%);
+    color: #4b3600;
+    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+}
+
+.section-modal-btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 215, 0, 0.5);
+}
+
+.section-modal-btn-secondary {
+    background: #f1f5f9;
+    color: #64748b;
+}
+
+.section-modal-btn-secondary:hover {
+    background: #e2e8f0;
+}
+
+/* RTL Support */
+body.rtl .section-modal-close {
+    right: auto;
+    left: 1rem;
+}
+
+body.rtl .section-modal-description {
+    direction: rtl;
+    text-align: right;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .section-modal {
+        width: 95%;
+        max-width: none;
+    }
+
+    .section-modal-header {
+        padding: 1.5rem;
+    }
+
+    .section-modal-icon {
+        font-size: 2.5rem;
+    }
+
+    .section-modal-title {
+        font-size: 1.5rem;
+    }
+
+    .section-modal-body {
+        padding: 1.5rem;
+    }
+
+    .section-modal-description {
+        font-size: 1rem;
+    }
+
+    .section-modal-footer {
+        padding: 0 1.5rem 1.5rem 1.5rem;
+        flex-direction: column;
+    }
+
+    .section-modal-btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* Animation for PRO badge */
+@keyframes shimmer {
+    0% {
+        background-position: -200% center;
+    }
+
+    100% {
+        background-position: 200% center;
+    }
+}
+
+.section-modal-badge {
+    background: linear-gradient(90deg,
+            #FFD700 0%,
+            #FDB931 25%,
+            #FFD700 50%,
+            #FDB931 75%,
+            #FFD700 100%);
+    background-size: 200% auto;
+    animation: shimmer 3s linear infinite;
+}
