@@ -6,6 +6,7 @@ const TRANSLATIONS = {
         // Sidebar
         home: "Home",
         tasks: "Tasks",
+        projects: "Projects",
         books: "Books",
         languages: "Languages",
         progress: "Progress",
@@ -97,6 +98,7 @@ const TRANSLATIONS = {
         appTitle: "Planificateur",
         home: "Accueil",
         tasks: "Tâches",
+        projects: "Projets",
         books: "Livres",
         languages: "Langues",
         progress: "Progrès",
@@ -169,6 +171,7 @@ const TRANSLATIONS = {
         appTitle: "المخطط اليومي",
         home: "الرئيسية",
         tasks: "المهام",
+        projects: "المشاريع",
         books: "الكتب",
         languages: "اللغات",
         progress: "التقدم",
