@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اختبار أداة تخطيط المشاريع</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem;
+            direction: rtl;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            text-align: center;
+            color: #667eea;
+            margin-bottom: 2rem;
+            font-size: 2.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        input:focus,
+        select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+        }
+
+        button {
+            width: 100%;
+            padding: 1.2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        #results {
+            display: none;
+            margin-top: 3rem;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .success-header {
+            text-align: center;
+            padding: 2rem;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            border: 2px solid #667eea;
+        }
+
+        .phase-card {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            border-right: 4px solid #667eea;
+        }
+
+        .phase-card h3 {
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .tool-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            border: 2px solid #e0e0e0;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-5px);
+            border-color: #667eea;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .tool-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .tool-price {
+            color: #28a745;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 1rem 0;
+        }
+
+        .reset-btn {
+            background: #6c757d;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>🚀 أداة تخطيط المشاريع</h1>
+
+        <form id="projectForm">
+            <div class="form-group">
+                <label>📌 اسم المشروع</label>
+                <input type="text" id="projectName" placeholder="مثال: تطبيق إدارة المهام الذكي" required>
+            </div>
+
+            <div class="form-group">
+                <label>🎯 نوع المشروع</label>
+                <select id="projectType" required>
+                    <option value="">اختر نوع المشروع...</option>
+                    <option value="web">💻 تطوير ويب</option>
+                    <option value="mobile">📱 تطبيق موبايل</option>
+                    <option value="ai">🤖 ذكاء اصطناعي</option>
+                    <option value="ecommerce">🛒 تجارة إلكترونية</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>💰 الميزانية المتوقعة</label>
+                <input type="text" id="projectBudget" placeholder="مثال: 5000 دولار" required>
+            </div>
+
+            <button type="submit">✨ أنشئ خطتي</button>
+        </form>
+
+        <div id="results"></div>
+    </div>
+
+    <script>
+        const projectData = {
+            web: {
+                name: 'تطوير ويب',
+                icon: '💻',
+                phases: [
+                    { name: 'التخطيط والتصميم', duration: '2-3 أسابيع', tasks: ['تحديد المتطلبات', 'تصميم واجهة المستخدم', 'اختيار التقنيات'] },
+                    { name: 'التطوير', duration: '4-6 أسابيع', tasks: ['بناء الواجهة الأمامية', 'تطوير الخلفية', 'ربط قاعدة البيانات'] },
+                    { name: 'الاختبار', duration: '1-2 أسبوع', tasks: ['اختبار الوظائف', 'اختبار الأمان', 'اختبار الأداء'] },
+                    { name: 'الإطلاق', duration: '1 أسبوع', tasks: ['نشر الموقع', 'إعداد النطاق', 'المراقبة والصيانة'] }
+                ],
+                tools: [
+                    { name: 'لابتوب برمجة احترافي', price: '1200$', icon: '💻' },
+                    { name: 'كتاب: تطوير الويب الحديث', price: '45$', icon: '📚' },
+                    { name: 'شاشة إضافية 27 بوصة', price: '250$', icon: '🖥️' }
+                ]
+            },
+            mobile: {
+                name: 'تطبيق موبايل',
+                icon: '📱',
+                phases: [
+                    { name: 'التخطيط والتصميم', duration: '2-3 أسابيع', tasks: ['دراسة السوق', 'تصميم UX/UI', 'اختيار منصة التطوير'] },
+                    { name: 'التطوير', duration: '6-8 أسابيع', tasks: ['بناء الواجهات', 'تطوير الميزات', 'دمج APIs'] },
+                    { name: 'الاختبار', duration: '2-3 أسابيع', tasks: ['اختبار على أجهزة مختلفة', 'اختبار الأداء', 'Beta Testing'] },
+                    { name: 'الإطلاق', duration: '1-2 أسبوع', tasks: ['رفع على المتاجر', 'التسويق', 'جمع التقييمات'] }
+                ],
+                tools: [
+                    { name: 'MacBook Pro للتطوير', price: '2500$', icon: '💻' },
+                    { name: 'دورة: تطوير تطبيقات الموبايل', price: '99$', icon: '🎓' },
+                    { name: 'جهاز اختبار Android', price: '400$', icon: '📱' }
+                ]
+            },
+            ai: {
+                name: 'ذكاء اصطناعي',
+                icon: '🤖',
+                phases: [
+                    { name: 'البحث والتخطيط', duration: '3-4 أسابيع', tasks: ['تحديد حالة الاستخدام', 'جمع البيانات', 'اختيار النماذج'] },
+                    { name: 'التطوير والتدريب', duration: '8-12 أسبوع', tasks: ['تنظيف البيانات', 'تدريب النماذج', 'تحسين الأداء'] },
+                    { name: 'التقييم', duration: '2-3 أسابيع', tasks: ['اختبار الدقة', 'تحليل النتائج', 'التحسينات'] },
+                    { name: 'النشر', duration: '2 أسبوع', tasks: ['نشر النموذج', 'إنشاء API', 'المراقبة المستمرة'] }
+                ],
+                tools: [
+                    { name: 'GPU قوي للتدريب', price: '1500$', icon: '🎮' },
+                    { name: 'كتاب: التعلم العميق', price: '60$', icon: '📚' },
+                    { name: 'اشتراك Cloud Computing', price: '200$/شهر', icon: '☁️' }
+                ]
+            },
+            ecommerce: {
+                name: 'تجارة إلكترونية',
+                icon: '🛒',
+                phases: [
+                    { name: 'التخطيط', duration: '2-3 أسابيع', tasks: ['اختيار المنتجات', 'دراسة المنافسين', 'تحديد المنصة'] },
+                    { name: 'الإعداد والتطوير', duration: '4-6 أسابيع', tasks: ['إنشاء المتجر', 'إضافة المنتجات', 'إعداد الدفع'] },
+                    { name: 'التسويق', duration: '3-4 أسابيع', tasks: ['SEO', 'حملات إعلانية', 'وسائل التواصل'] },
+                    { name: 'الإطلاق والنمو', duration: 'مستمر', tasks: ['إطلاق المتجر', 'خدمة العملاء', 'تحليل المبيعات'] }
+                ],
+                tools: [
+                    { name: 'كاميرا لتصوير المنتجات', price: '800$', icon: '📷' },
+                    { name: 'دورة: التجارة الإلكترونية', price: '149$', icon: '🎓' },
+                    { name: 'برنامج إدارة المخزون', price: '50$/شهر', icon: '📦' }
+                ]
+            }
+        };
+
+        document.getElementById('projectForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const name = document.getElementById('projectName').value;
+            const type = document.getElementById('projectType').value;
+            const budget = document.getElementById('projectBudget').value;
+            const data = projectData[type];
+
+            let html = `
+                <div class="success-header">
+                    <h2 style="color: #667eea; margin-bottom: 0.5rem;">✅ تم إنشاء خطتك بنجاح!</h2>
+                    <p style="color: #666;">خطة عمل شاملة لمشروع: <strong>${name}</strong></p>
+                </div>
+
+                <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 10px; margin-bottom: 2rem;">
+                    <h3 style="margin-bottom: 1rem;">${data.icon} ملخص المشروع</h3>
+                    <p><strong>النوع:</strong> ${data.name}</p>
+                    <p><strong>الميزانية:</strong> ${budget}</p>
+                </div>
+
+                <h2 style="text-align: center; margin-bottom: 1.5rem;">🗺️ خارطة الطريق</h2>
+            `;
+
+            data.phases.forEach((phase, index) => {
+                html += `
+                    <div class="phase-card">
+                        <h3>المرحلة ${index + 1}: ${phase.name}</h3>
+                        <p style="color: #666; margin-bottom: 1rem;">⏱️ المدة: ${phase.duration}</p>
+                        <strong>المهام:</strong>
+                        <ul style="margin-right: 1.5rem; margin-top: 0.5rem;">
+                            ${phase.tasks.map(task => `<li>${task}</li>`).join('')}
+                        </ul>
+                    </div>
+                `;
+            });
+
+            html += `
+                <div style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(251, 191, 36, 0.1)); padding: 2rem; border-radius: 15px; margin-top: 3rem; border: 2px solid #f59e0b;">
+                    <h2 style="color: #f59e0b; margin-bottom: 1rem;">🛠️ أدوات مقترحة</h2>
+                    <p style="color: #666; margin-bottom: 1.5rem;">هذه الأدوات ستساعدك على إنجاز مشروعك بكفاءة</p>
+                    <div class="tools-grid">
+            `;
+
+            data.tools.forEach(tool => {
+                html += `
+                    <div class="tool-card">
+                        <div class="tool-icon">${tool.icon}</div>
+                        <h4>${tool.name}</h4>
+                        <div class="tool-price">${tool.price}</div>
+                        <button style="width: 100%; padding: 0.75rem; background: #667eea; color: white; border: none; border-radius: 8px; cursor: pointer;">
+                            🛒 عرض المنتج
+                        </button>
+                    </div>
+                `;
+            });
+
+            html += `
+                    </div>
+                    <p style="text-align: center; margin-top: 1.5rem; color: #666; font-size: 0.9rem;">
+                        💡 <strong>ملاحظة:</strong> يمكنك استبدال روابط المنتجات بروابط Amazon Affiliate الخاصة بك
+                    </p>
+                </div>
+                <button class="reset-btn" onclick="resetForm()">➕ إنشاء خطة جديدة</button>
+            `;
+
+            document.getElementById('results').innerHTML = html;
+            document.getElementById('results').style.display = 'block';
+            document.getElementById('projectForm').style.display = 'none';
+        });
+
+        function resetForm() {
+            document.getElementById('projectForm').reset();
+            document.getElementById('projectForm').style.display = 'block';
+            document.getElementById('results').style.display = 'none';
+        }
+    </script>
+</body>
+
+</html>

@@ -211,7 +211,7 @@ body {
    MODERN ENHANCEMENTS - ANIMATED BACKGROUND
    ============================================ */
 
-/* Animated Gradient Background */
+/* Animated Gradient Mesh Background - Modern & Dynamic */
 .animated-bg {
     position: fixed;
     top: 0;
@@ -219,23 +219,49 @@ body {
     width: 100%;
     height: 100%;
     z-index: -1;
-    background: linear-gradient(-45deg, #667eea, #764ba2, #f093fb, #4facfe);
+    background: linear-gradient(-45deg,
+            #667eea 0%,
+            #764ba2 25%,
+            #f093fb 50%,
+            #4facfe 75%,
+            #667eea 100%);
     background-size: 400% 400%;
-    animation: gradientShift 15s ease infinite;
+    animation: gradientShift 20s ease infinite;
+    opacity: 0.95;
 }
 
+/* Enhanced Gradient Animation - Slower & Smoother */
 @keyframes gradientShift {
     0% {
         background-position: 0% 50%;
     }
 
-    50% {
+    25% {
         background-position: 100% 50%;
+    }
+
+    50% {
+        background-position: 100% 100%;
+    }
+
+    75% {
+        background-position: 0% 100%;
     }
 
     100% {
         background-position: 0% 50%;
     }
+}
+
+/* Dark mode gradient adjustment */
+[data-theme="dark"] .animated-bg {
+    background: linear-gradient(-45deg,
+            #1e3a8a 0%,
+            #4c1d95 25%,
+            #831843 50%,
+            #0c4a6e 75%,
+            #1e3a8a 100%);
+    opacity: 0.7;
 }
 
 /* Smooth Scroll Behavior */

@@ -45,6 +45,10 @@
 
     <!-- SweetAlert2 Library -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- AOS (Animate On Scroll) Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 </head>
 
 <body class="light">
@@ -101,19 +105,19 @@
                 <p class="section-subtitle">Everything you need to stay organized and keep growing.</p>
 
                 <div class="features-grid">
-                    <div class="feature-card">
+                    <div class="feature-card" data-aos="fade-up" data-aos-delay="0">
                         <div class="feature-icon">✅</div>
                         <h3 class="feature-title">Smart Tasks</h3>
                         <p class="feature-description">Organize tasks with priorities, categories, and tags. Never miss
                             a deadline again.</p>
                     </div>
-                    <div class="feature-card">
+                    <div class="feature-card" data-aos="fade-up" data-aos-delay="100">
                         <div class="feature-icon">🧠</div>
                         <h3 class="feature-title">Self-Discovery</h3>
                         <p class="feature-description">Access professional psychological tests to understand yourself
                             better.</p>
                     </div>
-                    <div class="feature-card">
+                    <div class="feature-card" data-aos="fade-up" data-aos-delay="200">
                         <div class="feature-icon">🌍</div>
                         <h3 class="feature-title">Language Hub</h3>
                         <p class="feature-description">Learn 5+ languages with interactive lessons and flashcards.</p>
@@ -128,20 +132,20 @@
                 <h2 class="section-title">Our Capabilities</h2>
                 <div class="services-grid" id="services-grid-render">
                     <!-- Service 1 -->
-                    <div class="service-card">
+                    <div class="service-card" data-aos="zoom-in" data-aos-delay="0">
                         <div class="service-icon-box">💻</div>
                         <h3 class="service-title">Web Development</h3>
                         <p class="service-desc">We build high-performance web applications tailored to your productivity
                             needs.</p>
                     </div>
                     <!-- Service 2 -->
-                    <div class="service-card">
+                    <div class="service-card" data-aos="zoom-in" data-aos-delay="100">
                         <div class="service-icon-box">📊</div>
                         <h3 class="service-title">Data Analytics</h3>
                         <p class="service-desc">Visualize your progress with stunning charts and detailed insights.</p>
                     </div>
                     <!-- Service 3 -->
-                    <div class="service-card">
+                    <div class="service-card" data-aos="zoom-in" data-aos-delay="200">
                         <div class="service-icon-box">🎓</div>
                         <h3 class="service-title">Education Tech</h3>
                         <p class="service-desc">Innovative learning tools designed to make education accessible and fun.
@@ -157,7 +161,7 @@
                 <h2 class="section-title">What Users Say</h2>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8"
                     style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
-                    <div class="testimonial-card">
+                    <div class="testimonial-card" data-aos="slide-up" data-aos-delay="0">
                         <img src="assets/avatar1.png" alt="" class="testimonial-avatar"
                             onerror="this.src='https://via.placeholder.com/80?text=U1'">
                         <p class="testimonial-text">"PlanHub completely changed how I organize my studies. The language
@@ -167,7 +171,7 @@
                             <div class="testimonial-role">Student</div>
                         </div>
                     </div>
-                    <div class="testimonial-card">
+                    <div class="testimonial-card" data-aos="slide-up" data-aos-delay="100">
                         <img src="assets/avatar2.png" alt="" class="testimonial-avatar"
                             onerror="this.src='https://via.placeholder.com/80?text=U2'">
                         <p class="testimonial-text">"The interface is so smooth and beautiful. I actually look forward
@@ -177,7 +181,7 @@
                             <div class="testimonial-role">Freelancer</div>
                         </div>
                     </div>
-                    <div class="testimonial-card">
+                    <div class="testimonial-card" data-aos="slide-up" data-aos-delay="200">
                         <img src="assets/avatar3.png" alt="" class="testimonial-avatar"
                             onerror="this.src='https://via.placeholder.com/80?text=U3'">
                         <p class="testimonial-text">"I love the psychological tests. They gave me great insights into my

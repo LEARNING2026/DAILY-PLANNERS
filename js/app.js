@@ -261,3 +261,214 @@ const app = {
 window.app = app;
 
 document.addEventListener('DOMContentLoaded', init);
+
+// ============================================
+// DYNAMIC V2 ENHANCEMENTS
+// ============================================
+
+/**
+ * Initialize AOS (Animate On Scroll) Library
+ */
+function initAOS() {
+    if (typeof AOS !== 'undefined') {
+        AOS.init({
+            duration: 800,
+            easing: 'ease-in-out',
+            once: true,
+            offset: 100,
+            delay: 50
+        });
+        console.log('✅ AOS initialized successfully');
+    } else {
+        console.warn('⚠️ AOS library not loaded');
+    }
+}
+
+/**
+ * Fetch GitHub Projects Dynamically
+ * Fetches latest 6 repositories from GitHub API and displays them
+ */
+async function fetchGitHubProjects() {
+    const YOUR_GITHUB_USERNAME = 'achrafhub'; // ⚠️ Replace with your actual GitHub username
+    const projectsContainer = document.getElementById('services-grid-render');
+
+    if (!projectsContainer) {
+        console.warn('Projects container not found');
+        return;
+    }
+
+    // Show loading state
+    projectsContainer.innerHTML = `
+        <div style="grid-column: 1 / -1; text-align: center; padding: 3rem;">
+            <div style="font-size: 3rem; margin-bottom: 1rem;">⏳</div>
+            <p style="color: var(--text-secondary);">Loading projects from GitHub...</p>
+        </div>
+    `;
+
+    try {
+        const response = await fetch(`https://api.github.com/users/${YOUR_GITHUB_USERNAME}/repos?sort=updated&per_page=6`);
+
+        if (!response.ok) {
+            throw new Error(`GitHub API error: ${response.status}`);
+        }
+
+        const repos = await response.json();
+
+        if (repos.length === 0) {
+            throw new Error('No repositories found');
+        }
+
+        // Clear container and render projects
+        projectsContainer.innerHTML = '';
+
+        repos.forEach((repo, index) => {
+            const card = document.createElement('div');
+            card.className = 'service-card';
+            card.setAttribute('data-aos', 'zoom-in');
+            card.setAttribute('data-aos-delay', index * 100);
+
+            // Get language icon
+            const langIcon = getLanguageIcon(repo.language);
+
+            card.innerHTML = `
+                <div class="service-icon-box">${langIcon}</div>
+                <h3 class="service-title">${repo.name}</h3>
+                <p class="service-desc">${repo.description || 'No description available'}</p>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border-color);">
+                    <div style="display: flex; gap: 1rem; font-size: 0.85rem; color: var(--text-secondary);">
+                        <span>⭐ ${repo.stargazers_count}</span>
+                        <span>🔀 ${repo.forks_count}</span>
+                    </div>
+                    <a href="${repo.html_url}" target="_blank" rel="noopener noreferrer" 
+                       class="btn btn-primary" 
+                       style="padding: 0.5rem 1rem; font-size: 0.85rem; text-decoration: none;"
+                       onclick="event.stopPropagation()">
+                        View →
+                    </a>
+                </div>
+            `;
+
+            projectsContainer.appendChild(card);
+        });
+
+        // Refresh AOS after dynamic content
+        if (typeof AOS !== 'undefined') {
+            AOS.refresh();
+        }
+
+        console.log(`✅ Loaded ${repos.length} projects from GitHub`);
+
+    } catch (error) {
+        console.error('❌ Error fetching GitHub projects:', error);
+
+        // Fallback to default projects
+        renderFallbackProjects(projectsContainer);
+    }
+}
+
+/**
+ * Get icon based on programming language
+ */
+function getLanguageIcon(language) {
+    const icons = {
+        'JavaScript': '💛',
+        'TypeScript': '💙',
+        'Python': '🐍',
+        'Java': '☕',
+        'HTML': '🌐',
+        'CSS': '🎨',
+        'PHP': '🐘',
+        'Ruby': '💎',
+        'Go': '🔷',
+        'Rust': '🦀',
+        'C++': '⚙️',
+        'C#': '🎮',
+        'Swift': '🍎',
+        'Kotlin': '📱'
+    };
+
+    return icons[language] || '📦';
+}
+
+/**
+ * Render fallback projects if GitHub API fails
+ */
+function renderFallbackProjects(container) {
+    const fallbackProjects = [
+        {
+            icon: '💻',
+            title: 'Web Development',
+            description: 'High-performance web applications tailored to your productivity needs.',
+            link: '#'
+        },
+        {
+            icon: '📊',
+            title: 'Data Analytics',
+            description: 'Visualize your progress with stunning charts and detailed insights.',
+            link: '#'
+        },
+        {
+            icon: '🎓',
+            title: 'Education Tech',
+            description: 'Innovative learning tools designed to make education accessible and fun.',
+            link: '#'
+        }
+    ];
+
+    container.innerHTML = '';
+
+    fallbackProjects.forEach((project, index) => {
+        const card = document.createElement('div');
+        card.className = 'service-card';
+        card.setAttribute('data-aos', 'zoom-in');
+        card.setAttribute('data-aos-delay', index * 100);
+
+        card.innerHTML = `
+            <div class="service-icon-box">${project.icon}</div>
+            <h3 class="service-title">${project.title}</h3>
+            <p class="service-desc">${project.description}</p>
+        `;
+
+        container.appendChild(card);
+    });
+
+    // Refresh AOS
+    if (typeof AOS !== 'undefined') {
+        AOS.refresh();
+    }
+
+    console.log('✅ Fallback projects rendered');
+}
+
+/**
+ * Initialize Dynamic V2 Features
+ */
+function initDynamicV2() {
+    // Initialize AOS animations
+    initAOS();
+
+    // Fetch GitHub projects only if on landing page
+    const landingView = document.getElementById('landing-view');
+    if (landingView && landingView.style.display !== 'none') {
+        fetchGitHubProjects();
+    }
+}
+
+// Initialize Dynamic V2 when DOM is ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initDynamicV2);
+} else {
+    initDynamicV2();
+}
+
+// Re-initialize when switching to landing view
+const originalSwitchToLanding = window.App?.switchToLanding;
+if (originalSwitchToLanding) {
+    window.App.switchToLanding = function () {
+        originalSwitchToLanding();
+        setTimeout(() => {
+            initAOS();
+            fetchGitHubProjects();
+        }, 100);
+    };
+}

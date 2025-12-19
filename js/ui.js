@@ -111,18 +111,17 @@ const UI = {
                 <div class="lang-grid">
                     <!-- Projects Card -->
                     <div class="card pro-feature-card ${!isPro ? 'locked' : ''}" onclick="location.hash='#projects'">
-                        <div style="font-size:3rem; margin-bottom:1rem;">📊</div>
+                        <div style="font-size:3rem; margin-bottom:1rem;">🚀</div>
                         <h3 style="display:flex; align-items:center; justify-content:center; gap:0.5rem;">
-                            Projects
+                            أداة تخطيط المشاريع
                             <span class="pro-badge">PRO</span>
                             ${!isPro ? '<span class="lock-icon">🔒</span>' : ''}
                         </h3>
                         <p style="color:var(--text-secondary); margin:0.75rem 0;">
-                            Manage personal and team projects with tasks, deadlines, and progress tracking
+                            احصل على خطة عمل احترافية لمشروعك مع خارطة طريق مفصلة وأدوات مقترحة
                         </p>
-                        <div class="maintenance-badge" style="margin-top:1rem;">
-                            <span class="maintenance-icon">🛠</span>
-                            <span>Under Maintenance</span>
+                        <div style="margin-top:1rem; padding:0.5rem; background:rgba(99, 102, 241, 0.1); border-radius:0.5rem; font-size:0.85rem; color:var(--primary-color); font-weight:600;">
+                            ✨ متاح الآن!
                         </div>
                     </div>
 
@@ -362,43 +361,91 @@ const UI = {
     /* --- PRO FEATURES --- */
 
     /**
-     * Render Projects Platform (Maintenance Mode)
+     * Render Project Kickoff Tool (Interactive Planning Tool)
      */
     renderProjects() {
         const container = document.getElementById('projects-view');
         if (!container) return;
 
         container.innerHTML = `
-            <div class="maintenance-overlay">
-                <div class="maintenance-content">
-                    <div class="maintenance-big-icon">🛠</div>
-                    <h1 class="maintenance-title">
-                        Projects Platform
-                        <span class="pro-badge" style="margin-left:1rem;">PRO</span>
+            <div class="project-kickoff-tool">
+                <!-- Header -->
+                <div style="text-align: center; margin-bottom: 3rem;">
+                    <div style="font-size: 4rem; margin-bottom: 1rem;">🚀</div>
+                    <h1 style="margin: 0 0 1rem 0; font-size: 2.5rem; background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                        أداة تخطيط المشاريع
                     </h1>
-                    <p class="maintenance-description">
-                        This feature is currently under maintenance. We're building something amazing for you!
+                    <p style="color: var(--text-secondary); font-size: 1.1rem; max-width: 600px; margin: 0 auto;">
+                        احصل على خطة عمل احترافية لمشروعك في ثوانٍ! أدخل تفاصيل مشروعك وسنقوم بإنشاء خارطة طريق مفصلة لك.
                     </p>
-                    <div class="maintenance-badge">
-                        <span class="maintenance-icon">🛠</span>
-                        <span>Under Maintenance</span>
-                    </div>
+                </div>
 
-                    <div class="feature-description">
-                        <h3>📊 What's Coming</h3>
-                        <ul>
-                            <li>Personal project management with tasks and deadlines</li>
-                            <li>Team collaboration with shared projects</li>
-                            <li>Progress tracking and analytics dashboard</li>
-                            <li>Gantt charts and timeline views</li>
-                            <li>File attachments and comments</li>
-                            <li>Real-time notifications</li>
-                        </ul>
-                    </div>
+                <!-- Input Form -->
+                <div class="card project-form-card" id="project-form-card">
+                    <h2 style="margin: 0 0 2rem 0; text-align: center; color: var(--primary-color);">
+                        📋 معلومات المشروع
+                    </h2>
+                    
+                    <form id="project-kickoff-form" onsubmit="UI.generateProjectRoadmap(event)">
+                        <!-- Project Name -->
+                        <div class="form-group-modern" style="margin-bottom: 1.5rem;">
+                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--text-primary);">
+                                📌 اسم المشروع
+                            </label>
+                            <input 
+                                type="text" 
+                                id="project-name" 
+                                class="input-field" 
+                                placeholder="مثال: تطبيق إدارة المهام الذكي"
+                                required
+                                style="width: 100%;"
+                            >
+                        </div>
 
-                    <button class="btn" style="margin-top:2rem;" onclick="location.hash='#home'">
-                        ← Back to Home
-                    </button>
+                        <!-- Project Type -->
+                        <div class="form-group-modern" style="margin-bottom: 1.5rem;">
+                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--text-primary);">
+                                🎯 نوع المشروع
+                            </label>
+                            <select 
+                                id="project-type" 
+                                class="input-field" 
+                                required
+                                style="width: 100%;"
+                            >
+                                <option value="">اختر نوع المشروع...</option>
+                                <option value="web">💻 تطوير ويب</option>
+                                <option value="mobile">📱 تطبيق موبايل</option>
+                                <option value="ai">🤖 ذكاء اصطناعي</option>
+                                <option value="ecommerce">🛒 تجارة إلكترونية</option>
+                            </select>
+                        </div>
+
+                        <!-- Budget -->
+                        <div class="form-group-modern" style="margin-bottom: 2rem;">
+                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--text-primary);">
+                                💰 الميزانية المتوقعة
+                            </label>
+                            <input 
+                                type="text" 
+                                id="project-budget" 
+                                class="input-field" 
+                                placeholder="مثال: 5000 دولار"
+                                required
+                                style="width: 100%;"
+                            >
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button type="submit" class="btn btn-primary" style="width: 100%; padding: 1rem; font-size: 1.1rem; justify-content: center;">
+                            ✨ أنشئ خطتي
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Results Container (Hidden Initially) -->
+                <div id="project-roadmap-results" style="display: none;">
+                    <!-- Will be populated by JavaScript -->
                 </div>
             </div>
         `;
@@ -820,6 +867,243 @@ const UI = {
             this.showToast('All data cleared! Refreshing...', 'success');
             setTimeout(() => location.reload(), 1500);
         }
+    },
+
+    /**
+     * Generate Project Roadmap
+     * Creates a dynamic roadmap based on user input
+     */
+    generateProjectRoadmap(event) {
+        event.preventDefault();
+
+        // Get form values
+        const projectName = document.getElementById('project-name').value;
+        const projectType = document.getElementById('project-type').value;
+        const projectBudget = document.getElementById('project-budget').value;
+
+        // Get project type details
+        const projectTypes = {
+            web: {
+                name: 'تطوير ويب',
+                icon: '💻',
+                phases: [
+                    { name: 'التخطيط والتصميم', duration: '2-3 أسابيع', tasks: ['تحديد المتطلبات', 'تصميم واجهة المستخدم', 'اختيار التقنيات'] },
+                    { name: 'التطوير', duration: '4-6 أسابيع', tasks: ['بناء الواجهة الأمامية', 'تطوير الخلفية', 'ربط قاعدة البيانات'] },
+                    { name: 'الاختبار', duration: '1-2 أسبوع', tasks: ['اختبار الوظائف', 'اختبار الأمان', 'اختبار الأداء'] },
+                    { name: 'الإطلاق', duration: '1 أسبوع', tasks: ['نشر الموقع', 'إعداد النطاق', 'المراقبة والصيانة'] }
+                ],
+                tools: [
+                    { name: 'لابتوب برمجة احترافي', price: '1200$', link: '#', icon: '💻' },
+                    { name: 'كتاب: تطوير الويب الحديث', price: '45$', link: '#', icon: '📚' },
+                    { name: 'شاشة إضافية 27 بوصة', price: '250$', link: '#', icon: '🖥️' }
+                ]
+            },
+            mobile: {
+                name: 'تطبيق موبايل',
+                icon: '📱',
+                phases: [
+                    { name: 'التخطيط والتصميم', duration: '2-3 أسابيع', tasks: ['دراسة السوق', 'تصميم UX/UI', 'اختيار منصة التطوير'] },
+                    { name: 'التطوير', duration: '6-8 أسابيع', tasks: ['بناء الواجهات', 'تطوير الميزات', 'دمج APIs'] },
+                    { name: 'الاختبار', duration: '2-3 أسابيع', tasks: ['اختبار على أجهزة مختلفة', 'اختبار الأداء', 'Beta Testing'] },
+                    { name: 'الإطلاق', duration: '1-2 أسبوع', tasks: ['رفع على المتاجر', 'التسويق', 'جمع التقييمات'] }
+                ],
+                tools: [
+                    { name: 'MacBook Pro للتطوير', price: '2500$', link: '#', icon: '💻' },
+                    { name: 'دورة: تطوير تطبيقات الموبايل', price: '99$', link: '#', icon: '🎓' },
+                    { name: 'جهاز اختبار Android', price: '400$', link: '#', icon: '📱' }
+                ]
+            },
+            ai: {
+                name: 'ذكاء اصطناعي',
+                icon: '🤖',
+                phases: [
+                    { name: 'البحث والتخطيط', duration: '3-4 أسابيع', tasks: ['تحديد حالة الاستخدام', 'جمع البيانات', 'اختيار النماذج'] },
+                    { name: 'التطوير والتدريب', duration: '8-12 أسبوع', tasks: ['تنظيف البيانات', 'تدريب النماذج', 'تحسين الأداء'] },
+                    { name: 'التقييم', duration: '2-3 أسابيع', tasks: ['اختبار الدقة', 'تحليل النتائج', 'التحسينات'] },
+                    { name: 'النشر', duration: '2 أسبوع', tasks: ['نشر النموذج', 'إنشاء API', 'المراقبة المستمرة'] }
+                ],
+                tools: [
+                    { name: 'GPU قوي للتدريب', price: '1500$', link: '#', icon: '🎮' },
+                    { name: 'كتاب: التعلم العميق', price: '60$', link: '#', icon: '📚' },
+                    { name: 'اشتراك Cloud Computing', price: '200$/شهر', link: '#', icon: '☁️' }
+                ]
+            },
+            ecommerce: {
+                name: 'تجارة إلكترونية',
+                icon: '🛒',
+                phases: [
+                    { name: 'التخطيط', duration: '2-3 أسابيع', tasks: ['اختيار المنتجات', 'دراسة المنافسين', 'تحديد المنصة'] },
+                    { name: 'الإعداد والتطوير', duration: '4-6 أسابيع', tasks: ['إنشاء المتجر', 'إضافة المنتجات', 'إعداد الدفع'] },
+                    { name: 'التسويق', duration: '3-4 أسابيع', tasks: ['SEO', 'حملات إعلانية', 'وسائل التواصل'] },
+                    { name: 'الإطلاق والنمو', duration: 'مستمر', tasks: ['إطلاق المتجر', 'خدمة العملاء', 'تحليل المبيعات'] }
+                ],
+                tools: [
+                    { name: 'كاميرا لتصوير المنتجات', price: '800$', link: '#', icon: '📷' },
+                    { name: 'دورة: التجارة الإلكترونية', price: '149$', link: '#', icon: '🎓' },
+                    { name: 'برنامج إدارة المخزون', price: '50$/شهر', link: '#', icon: '📦' }
+                ]
+            }
+        };
+
+        const typeData = projectTypes[projectType];
+
+        // Hide form and show results with animation
+        const formCard = document.getElementById('project-form-card');
+        const resultsContainer = document.getElementById('project-roadmap-results');
+
+        formCard.style.opacity = '0';
+        formCard.style.transform = 'translateY(-20px)';
+
+        setTimeout(() => {
+            formCard.style.display = 'none';
+            resultsContainer.style.display = 'block';
+            resultsContainer.style.opacity = '0';
+
+            // Generate results HTML
+            resultsContainer.innerHTML = `
+                <div class="roadmap-results">
+                    <!-- Success Header -->
+                    <div class="card" style="text-align: center; background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1)); border: 2px solid var(--primary-color); margin-bottom: 2rem;">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">✅</div>
+                        <h2 style="margin: 0 0 0.5rem 0; color: var(--primary-color);">تم إنشاء خطتك بنجاح!</h2>
+                        <p style="margin: 0; color: var(--text-secondary);">
+                            خطة عمل شاملة لمشروع: <strong>${projectName}</strong>
+                        </p>
+                    </div>
+
+                    <!-- Project Summary -->
+                    <div class="card" style="margin-bottom: 2rem;">
+                        <h3 style="margin: 0 0 1.5rem 0; display: flex; align-items: center; gap: 0.5rem;">
+                            <span>${typeData.icon}</span>
+                            <span>ملخص المشروع</span>
+                        </h3>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem;">
+                            <div>
+                                <div style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 0.5rem;">اسم المشروع</div>
+                                <div style="font-weight: 600;">${projectName}</div>
+                            </div>
+                            <div>
+                                <div style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 0.5rem;">نوع المشروع</div>
+                                <div style="font-weight: 600;">${typeData.icon} ${typeData.name}</div>
+                            </div>
+                            <div>
+                                <div style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 0.5rem;">الميزانية</div>
+                                <div style="font-weight: 600; color: var(--success-color);">${projectBudget}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Roadmap Phases -->
+                    <h2 style="margin: 0 0 1.5rem 0; text-align: center;">🗺️ خارطة الطريق</h2>
+                    <div class="roadmap-timeline">
+                        ${typeData.phases.map((phase, index) => `
+                            <div class="card roadmap-phase" style="margin-bottom: 1.5rem; border-left: 4px solid var(--primary-color); animation: fadeInUp 0.5s ease ${index * 0.1}s both;">
+                                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
+                                    <div>
+                                        <h3 style="margin: 0 0 0.5rem 0; color: var(--primary-color);">
+                                            المرحلة ${index + 1}: ${phase.name}
+                                        </h3>
+                                        <div style="font-size: 0.9rem; color: var(--text-secondary);">
+                                            ⏱️ المدة المتوقعة: ${phase.duration}
+                                        </div>
+                                    </div>
+                                    <span class="badge" style="background: var(--primary-color); color: white;">
+                                        ${index + 1}/4
+                                    </span>
+                                </div>
+                                <div>
+                                    <strong style="display: block; margin-bottom: 0.75rem;">المهام الرئيسية:</strong>
+                                    <ul style="margin: 0; padding-right: 1.5rem; line-height: 1.8;">
+                                        ${phase.tasks.map(task => `<li>${task}</li>`).join('')}
+                                    </ul>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+
+                    <!-- Recommended Tools Section -->
+                    <div class="card" style="margin-top: 3rem; background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(251, 191, 36, 0.1)); border: 2px solid var(--warning-color);">
+                        <h2 style="margin: 0 0 1rem 0; display: flex; align-items: center; gap: 0.5rem; color: var(--warning-color);">
+                            <span>🛠️</span>
+                            <span>أدوات مقترحة لمشروعك</span>
+                        </h2>
+                        <p style="margin: 0 0 2rem 0; color: var(--text-secondary);">
+                            هذه الأدوات ستساعدك على إنجاز مشروعك بكفاءة أعلى
+                        </p>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;">
+                            ${typeData.tools.map(tool => `
+                                <div class="tool-card" style="padding: 1.5rem; background: var(--bg-card); border-radius: 1rem; border: 1px solid var(--border-color); transition: transform 0.3s ease, box-shadow 0.3s ease;">
+                                    <div style="font-size: 2.5rem; margin-bottom: 1rem; text-align: center;">${tool.icon}</div>
+                                    <h4 style="margin: 0 0 0.5rem 0; text-align: center;">${tool.name}</h4>
+                                    <div style="text-align: center; font-size: 1.25rem; font-weight: 700; color: var(--success-color); margin-bottom: 1rem;">
+                                        ${tool.price}
+                                    </div>
+                                    <a href="${tool.link}" class="btn btn-primary" style="width: 100%; justify-content: center; text-decoration: none;" target="_blank">
+                                        🛒 عرض المنتج
+                                    </a>
+                                </div>
+                            `).join('')}
+                        </div>
+                        <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(245, 158, 11, 0.1); border-radius: 0.5rem; text-align: center; font-size: 0.9rem; color: var(--text-secondary);">
+                            💡 <strong>ملاحظة:</strong> يمكنك استبدال روابط المنتجات بروابط Amazon Affiliate الخاصة بك
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 3rem; flex-wrap: wrap;">
+                        <button class="btn btn-primary" onclick="UI.resetProjectForm()">
+                            ➕ إنشاء خطة جديدة
+                        </button>
+                        <button class="btn" onclick="window.print()">
+                            🖨️ طباعة الخطة
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            // Fade in results
+            setTimeout(() => {
+                resultsContainer.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                resultsContainer.style.opacity = '1';
+                resultsContainer.style.transform = 'translateY(0)';
+            }, 50);
+
+            // Scroll to results
+            resultsContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 300);
+
+        // Show success toast
+        this.showToast('تم إنشاء خطة المشروع بنجاح! 🎉', 'success');
+    },
+
+    /**
+     * Reset Project Form
+     * Shows the form again for creating a new roadmap
+     */
+    resetProjectForm() {
+        const formCard = document.getElementById('project-form-card');
+        const resultsContainer = document.getElementById('project-roadmap-results');
+
+        resultsContainer.style.opacity = '0';
+
+        setTimeout(() => {
+            resultsContainer.style.display = 'none';
+            formCard.style.display = 'block';
+            formCard.style.opacity = '0';
+            formCard.style.transform = 'translateY(20px)';
+
+            // Reset form
+            document.getElementById('project-kickoff-form').reset();
+
+            setTimeout(() => {
+                formCard.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                formCard.style.opacity = '1';
+                formCard.style.transform = 'translateY(0)';
+            }, 50);
+
+            // Scroll to form
+            formCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 300);
     },
 
     /**
